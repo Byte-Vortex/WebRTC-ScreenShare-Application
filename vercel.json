@@ -1,0 +1,24 @@
+{
+    "routes": [
+        {
+            "src": "/",
+            "dest": "/"
+        },
+        {
+            "src": "/login",
+            "dest": "/"
+        },
+        {
+            "src": "/dashboard",
+            "dest": "/"
+        },
+        {
+            "src": "/admin",
+            "dest": "/"
+        },
+        {
+            "src": "/userdata",
+            "dest": "/"
+        }
+    ]
+  }

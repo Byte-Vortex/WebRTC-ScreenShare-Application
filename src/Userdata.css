@@ -1,0 +1,346 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    width: 100%; 
+    overflow-x: hidden; 
+}
+.backgroundcontainer{
+    min-height: 100vh;
+    display: flex;
+    background: linear-gradient(to right, #003973, #e5e5be);
+    background-size: cover; 
+    background-position: center;
+    background-attachment: fixed;
+    background-blend-mode: darken;
+    justify-content: center;
+}
+.homepage button{
+    margin-top: -2%;
+    margin-left: -7%;
+    margin-bottom: 2%;
+    background: transparent;
+    border: none;
+    transition: 0.3s ease-in-out;
+}
+
+.homepage button:hover{
+    transform: scale(1.1);
+}
+
+.homepage button:focus{
+    transform: scale(0.9);
+}
+.container {
+    width: 80%;
+    margin: 0 auto;
+    margin-bottom: 2%;
+
+}
+  
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    margin-top: -2%;
+}
+  
+table, th, td {
+    border: 2px solid white;
+    border-radius: 5px;
+}
+  
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+.username, .name{
+    padding-left: 25px;
+    text-align: left;
+}
+
+th {
+
+    text-align: center;
+    font-size: 20px;
+}
+thead{
+    background: linear-gradient(to bottom, #0c5ba9, #bdbdb7);
+}
+.add-user {
+    margin-top: -8%;
+}
+
+.detail-form{
+    margin-top: -2%;
+}
+  
+.add-user button {
+    background: linear-gradient(to right, #283048 -100%, #859398);
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 27px;
+    position: relative;
+    margin-left: 10px;
+    margin-top: 1.5px;
+    width: 200px;
+    border: none;
+    outline: none;
+    font-family: 'poppins';
+    transition: 0.5s ease-in-out;
+    /* width: 80px; */
+}
+ 
+.add-user button:hover{
+    transform: scale(1.03);
+}
+
+.add-user button:focus{
+    transform: scale(.9);
+}
+
+.removeuser{
+    margin-top: -7%;
+}
+
+.delete {
+    background-color:transparent ;
+    color: #ff2718;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: 0.5s ease-in-out;
+}
+  
+.delete:hover {
+    color: #ca3131;
+    transform: scale(1.1);
+}
+
+.delete:focus{
+    transform: scale(0.9);
+}
+  
+.userid{
+    padding-left: 25px;
+}
+
+.connectioncode, .delbutton, .email{
+    text-align: center;
+    letter-spacing: 5px;
+}
+
+.displayuser, .adduser{
+    font-size: 60px;
+
+}
+
+.delete{
+    border-radius: 5px;
+    font-weight: bold;
+    font-family: 'poppins';
+    width: 80px;
+}
+
+.add-user input {
+    margin-top: 1%;
+    margin-right: 20px;
+    width: 28%;
+    font-size: 25px;
+    background: transparent;
+    text-align: center;
+    padding: 15px 10px 15px;
+    margin-bottom: 30px;
+    border: none;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 1px 1px 10px rgba(0, 0, 10, 0.5);
+    letter-spacing: 8px;
+}
+
+.add-user input::placeholder{
+    color: white;
+    font-size: large;
+    letter-spacing: 9px;
+}
+
+.add-user input::selection{
+    /* color: #005eff; */
+    background-color: white;
+}
+
+.add-user input:focus {
+    outline: none;
+    /* background: linear-gradient(to right, #4382f0 0%, #0ea7e8 90%); */
+    cursor: pointer;
+    color: white;
+}
+
+.notification {
+    display: none; /* Hidden by default */
+    margin-top: 2%;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    left: 50%;
+    top: 30%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    font-size: 20px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    z-index: 1000;
+    max-width: 80%;
+    text-align: center;
+}
+
+.notification.visible {
+    display: flex; /* Show the notification */
+}
+
+.notification.hidden {
+    display: none; /* Hide the notification */
+}
+
+.usermanage{
+    margin-top: -2%;
+    width: 100%;
+    display: inline-block;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    text-align: center;
+}
+
+.nwr{
+    font-size: 60px;
+}
+
+.umd{
+    font-size: 40px;
+    margin-top:6%;
+}
+
+.usermanagebutton{
+    margin-top: 3%;
+    display: inline-flex;
+    }
+
+.usermanage button{
+    font-size: larger;
+    margin-left: 10px;
+    margin-right: 10px;
+    transition: .3s ease-in-out;
+    padding: 10px 18px 10px;
+}
+
+.userbutton-1{
+    border-radius: 8px;
+    outline: none;
+    border: none;
+    background: linear-gradient(to right, #283048, #7a8487);
+}
+
+.userbutton-1:hover{
+    transform: scale(1.1);
+}
+
+.userbutton-2:hover{
+    transform: scale(1.1);
+}
+
+.userbutton-2{
+    border-radius: 8px;
+    outline: none;
+    border: none;
+    background: linear-gradient(to left, #283048, #7a8487);
+}
+
+h1{
+    font-size: 60px;
+    text-align: center;
+}
+
+.logout-button-div {
+    width: 113%;
+    margin-top: 1%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding: 9px ; /* Add some padding to the container */
+}
+
+.logout-button {
+    font-size: medium;
+    font-weight: bold;
+    width: 50px;
+    height: 50px;
+    background-color: white;
+    color: red;
+    border: none;
+    border-radius:50px;
+    cursor: pointer;
+    margin-right: 30px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 50);
+}
+
+.logout-button:hover {
+    background-color: white;
+    color: red;
+    transition: .3s ease-in-out;
+    transform: scale(1.03);
+}
+
+.logout-button:focus{
+    outline: none;
+    color: white;
+    background-color: red;
+    transform: scale(0.9);
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 50);
+}
+
+.loading-logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; 
+}
+
+
+.Back{
+    background: linear-gradient(to right, #283048 -100%, #859398);
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 27px;
+    position: relative;
+    margin-left: 10px;
+    margin-top: 1.5px;
+    width: 200px;
+    border: none;
+    outline: none;
+    font-family: 'poppins';
+    transition: 0.5s ease-in-out;
+    /* width: 80px; */
+}
+ 
+.Back:hover{
+    transform: scale(1.03);
+}
+
+.Back:focus{
+    transform: scale(.9);
+}
+
+.add-user p{
+    color: red;
+    font-weight: 400;
+}
