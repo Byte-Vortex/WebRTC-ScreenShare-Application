@@ -2,16 +2,22 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Userdata.css';
 import Lottie from 'react-lottie';
+import {FaLock,FaUserEdit,FaUserPlus,FaUsersCog } from "react-icons/fa";
 import logoutAnimationData from './Components/logout.json';
 import { useNavigate } from 'react-router-dom';
+import { MdEmail } from "react-icons/md";
+import { IoChevronBackCircle } from "react-icons/io5";
+import { BiSolidUserDetail } from "react-icons/bi";
+import { IoLogOut } from "react-icons/io5";
+import { TiUserAdd,TiUserDelete } from "react-icons/ti";
+import { MdDelete } from "react-icons/md";
 
 const Userdata = ({ authToken }) => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({ name: '', username: '', email: '', password: '' });
   const [error, setError] = useState('');
-  const [isLogout, setIsLogout] = useState(false);
-  const [view, setView] = useState('manage'); // 'manage', 'add', 'remove'
+  const [view, setView] = useState('manage');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,7 +26,7 @@ const Userdata = ({ authToken }) => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('https://nwr-server.vercel.app/getUsers', {
+      const response = await axios.get('http://localhost:5000/getUsers', {
         headers: { Authorization: `Bearer ${authToken}` },
       });
       setUsers(response.data);
@@ -30,7 +36,6 @@ const Userdata = ({ authToken }) => {
   };
 
   const handleLogout = () => {
-    setIsLogout(true);
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
@@ -48,7 +53,7 @@ const Userdata = ({ authToken }) => {
     setTimeout(() => {
       notification.classList.remove('visible');
       notification.classList.add('hidden');
-    }, 2000);
+    }, 1200);
   };
 
   const handleChangeView = (newView) => {
@@ -76,7 +81,7 @@ const Userdata = ({ authToken }) => {
     if (!validateForm()) return;
 
     try {
-      await axios.post('https://nwr-server.vercel.app/addUser', formData, {
+      await axios.post('http://localhost:5000/addUser', formData, {
         headers: { Authorization: `Bearer ${authToken}` },
       });
       notify('User Added Successfully!');
@@ -97,7 +102,7 @@ const Userdata = ({ authToken }) => {
 
   const deleteUser = async (id) => {
     try {
-      await axios.delete(`https://nwr-server.vercel.app/deleteUser/${id}`, {
+      await axios.delete(`http://localhost:5000/deleteUser/${id}`, {
         headers: { Authorization: `Bearer ${authToken}` },
       });
       notify('User Deleted Successfully!');
@@ -110,11 +115,9 @@ const Userdata = ({ authToken }) => {
 
   return (
     <div className='backgroundcontainer'>
-      <div className='container'>
-        <div className='logout-button-div'>
-          <button onClick={handleLogout} className='logout-button'>
-            <i className='fa-solid fa-power-off fa-2x'></i>
-          </button>
+      <div className='logout-button-div'>
+        <h3>North Western Railways</h3>
+          <button onClick={handleLogout} className='logout-button'><IoLogOut /></button>
         </div>
         {loading && (
           <div className='loading-logo'>
@@ -123,76 +126,84 @@ const Userdata = ({ authToken }) => {
         )}
         <div id='notification' className='notification hidden'></div>
 
+
+      <div className='container'>
+
         {view === 'manage' && (
-          <div className='usermanage'>
-            <h1 className='nwr'>North Western Railways</h1>
-            <h1 className='umd'>Users Management Dashboard</h1>
-            <div className='usermanagebutton'>
-              <button className='userbutton-1' onClick={() => handleChangeView('add')}>
-                &nbsp;<i className='fa-solid fa-user-plus'></i>&nbsp; Register User
-              </button>
-              <button className='userbutton-2' onClick={() => handleChangeView('remove')}>
-                &nbsp;<i className='fa-solid fa-user-minus'></i>&nbsp; Remove User
-              </button>
+          <div className='home-menu'>
+            <h1 className='h1-first'>North Western Railways</h1>
+            <h1 className='h1-second'>Users Management Dashboard</h1>
+            <div className='user-manage-btn'>
+              <button className='user-btn-add' onClick={() => handleChangeView('add')}> <span className='add-remove-icon'><TiUserAdd /></span> Register User</button>
+              <button className='user-btn-remove' onClick={() => handleChangeView('remove')}><span className='add-remove-icon'><TiUserDelete /></span> Remove User </button>
             </div>
           </div>
         )}
 
+
         {view === 'add' && (
-          <div className='add-user'>
-            <h3 className='adduser'>Add User</h3>
-            <form className='detail-form' onSubmit={handleSubmit}>
-              <input type='text' name='name' placeholder='Name' value={formData.name} onChange={handleChange} />
-              <input type='text' name='username' placeholder='Username' value={formData.username} onChange={handleChange} />
-              <input type='email' name='email' placeholder='Email' value={formData.email} onChange={handleChange} />
-              <input type='password' name='password' placeholder='Password' value={formData.password} onChange={handleChange} />
-              <br />
-              {error && <p>{error}</p>}
-              <br />
-              <button type='submit'>
-                &nbsp;<i className='fa-solid fa-user-plus'></i>&nbsp; Add User
-              </button>
-              <button type='button' onClick={() => handleChangeView('manage')}>
-                Back
-              </button>
+          <div className='add-user-container'>
+            <form className='detail-form' noValidate onSubmit={handleSubmit} >
+              <h2 className='adduser'>Add User</h2>
+                <div className='input-box-div'>
+                  <span className='icon-box'><BiSolidUserDetail /></span>
+                  <input required type='text' id='name' name='name' value={formData.name} onChange={handleChange} />
+                  <label htmlFor="name">Full Name</label>
+                </div>
+                <div className='input-box-div'>
+                  <span className='icon-box'><FaUserEdit /></span>
+                  <input required type='text' id='username' name='username' value={formData.username} onChange={handleChange} />
+                  <label htmlFor="username">Username</label>
+                </div>
+                <div className='input-box-div'>
+                  <span className='icon-box'><MdEmail /></span>
+                  <input required type='text' id='email' name='email' value={formData.email} onChange={handleChange} />
+                  <label htmlFor="email">Email</label>
+                </div>
+                <div className='input-box-div'>
+                  <span className='icon-box'><FaLock /></span>
+                  <input required type='password' name='password'  value={formData.password} onChange={handleChange} />
+                  <label htmlFor="password">Password</label>
+                </div>
+                {error && <p className='error'>{error}</p>}
+                <div className='btns'>
+                  <button className='add-user-btn' type='submit'>Add User &nbsp; <span><FaUserPlus /></span></button>
+                  <button className='back-btn' type='button' onClick={() => handleChangeView('manage')}>Back<span><IoChevronBackCircle /></span></button>
+                </div>
             </form>
           </div>
         )}
 
         {view === 'remove' && (
-          <div className='removeuser'>
-            <h2 className='displayuser'>
-              Users List &nbsp;<i className='fa-solid fa-users'></i>
-            </h2>
-            <table>
-              <thead>
-                <tr>
-                  <th className='name'>Name</th>
-                  <th className='username'>Username</th>
-                  <th className='emailid'>Email</th>
-                  <th>Connection ID</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {users.map((user) => (
-                  <tr key={user._id}>
-                    <td className='name'>{user.name}</td>
-                    <td className='userid'>{user.username}</td>
-                    <td className='email'>{user.email}</td>
-                    <td className='connectioncode'>{user.connectionId}</td>
-                    <td className='delbutton'>
-                      <button className='delete' onClick={() => deleteUser(user._id)}>
-                        <i className='fa-solid fa-trash fa-2x'></i>
-                      </button>
-                    </td>
+          <div className='removeuser-container'>
+            <h2 className='h2-users'>Users List <span className='user-icon'><FaUsersCog /></span></h2>
+            <div className='table-container'>
+              <table>
+                <thead>
+                  <tr>
+                    <th className='name'>Name</th>
+                    <th className='username'>Username</th>
+                    <th className='emailid'>Email</th>
+                    <th>Connection ID</th>
+                    <th>Action</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-            <button type='button'className='Back' onClick={() => handleChangeView('manage')}>
-              Back
-            </button>
+                </thead>
+                <tbody>
+                  {users.map((user) => (
+                    <tr key={user._id}>
+                      <td className='name'>{user.name}</td>
+                      <td className='userid'>{user.username}</td>
+                      <td className='email'>{user.email}</td>
+                      <td className='connectioncode'>{user.connectionId}</td>
+                      <td className='delbutton'>
+                        <button className='delete' onClick={() => deleteUser(user._id)}> <span className='del-icon'><MdDelete /></span></button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <button type='button'className='back-button' onClick={() => handleChangeView('manage')}>Back<span><IoChevronBackCircle /></span></button>
           </div>
         )}
       </div>
