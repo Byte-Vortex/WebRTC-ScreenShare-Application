@@ -5,6 +5,8 @@ import Dashboard from './Dashboard';
 import PrivateRoute from './PrivateRoute';
 import AdminLogin from './AdminLogin';
 import Userdata from './Userdata';
+import ForgotPassword from './ForgotPassword';
+import ResetPassword from './ResetPassword';
 
 function App() {
     const [authToken, setAuthToken] = useState(null);
