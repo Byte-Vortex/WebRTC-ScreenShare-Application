@@ -67,9 +67,9 @@ const Login = () => {
     
         setError('');
         setLoading(true);
-    
+    //https://nwr-server.vercel.app
         try {
-            const response = await axios.post('https://nwr-server.vercel.app/api/users/login', { username, password });
+            const response = await axios.post('http://localhost:5000/api/users/login', { username, password });
     
             if (response.data.success) {
                 localStorage.setItem('token', response.data.token);
@@ -120,18 +120,18 @@ const Login = () => {
                 
                 <h2>User Login</h2>
                     <div className='input-box'>
-                        <span className='icon'><FaUser /></span>
+                        <span className='icon'><FaUser/></span>
                         <input
                             type="text"
                             value={username}
                             required
                             id='username'
                             onChange={(e) => setUsername(e.target.value)}
-                        />
+                        /> 
                         <label htmlFor="username">Username</label>
                     </div>
                     <div className='input-box'>
-                        <span className='icon'><FaLock /></span>
+                        <span className='icon'><FaLock/></span>
                         <input
                             type="password"
                             required
@@ -139,7 +139,7 @@ const Login = () => {
                             id='password'
                             onChange={(e) => setPassword(e.target.value)}
                         />
-                        <label htmlFor="password">Password</label>
+                        <label htmlFor="password">Password</label> 
                     </div>
                     <div className='remember-forgot'>
                         <label htmlFor="remember"><input type="checkbox" checked={rememberMe} onChange={(e)=>setRememberMe(e.target.checked)} id='remember'/>Remember me</label>
@@ -158,3 +158,4 @@ const Login = () => {
 
 export default Login;
 
+                                         

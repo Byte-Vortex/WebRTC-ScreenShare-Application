@@ -1,4 +1,3 @@
-/* General Styling */
 html, body {
     height: 100%;
     margin: 0;
@@ -7,129 +6,111 @@ html, body {
 }
 
 .background {
-    position: inherit;
-    min-height: 100vh;
-    display: block;
-    background: linear-gradient(to right, #03001e, #7303c0, #ec38bc, #fdeff9,#7303c0);
-    background-size: cover; 
-    background-position: center;
-    background-attachment: fixed;
-    background-blend-mode: darken;
-    justify-content: center;
-}
-
-.dashboard-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-bottom: 0%;
+    height: 100vh;
+    background-image: url(./assets/background.jpg);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-blend-mode: darken;
+    line-height: 5vh;
+}
+
+.dashboard-container {
     width: 100%;
-    padding: 0 20px;
-}
-
-.logoutbutton-div {
-    width: 90%;
-    display: flex;  
-    flex-direction: row;
-    justify-content: flex-end;
-    padding: 9px ; /* Add some padding to the container */
-}
-
-.logoutbutton {
-    font-size: medium;
-    font-weight: bold;
-    width: 50px;
-    height: 50px;
-    background-color: white;
-    color: red;
-    border: none;
-    border-radius:50px;
-    cursor: pointer;
-    margin-right: 30px;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 50);
-}
-
-.logoutbutton:hover {
-    background-color: white;
-    color: red;
-    transition: .3s ease-in-out;
-    transform: scale(1.03);
-}
-
-.logoutbutton:focus{
-    outline: none;
-    color: white;
-    background-color: red;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 50);
-}
-
-.loading-logo {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 24px;
-    color: #000;
+    height: 100%;
+    margin: 0 auto;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    z-index: 1000; 
-}
-
-.notification {
-    display: none; /* Hidden by default */
-    margin-top: 2%;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    left: 50%;
-    top: 30%;
-    transform: translate(-50%, -50%);
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 10px 20px;
-    border-radius: 10px;
-    z-index: 1000;
-    max-width: 80%;
-    text-align: center;
-}
-
-.notification.visible {
-    display: flex; /* Show the notification */
-}
-
-.notification.hidden {
-    display: none; /* Hide the notification */
 }
 
 .header {
+    width: 100%; 
+    height: 35px;
+    background:transparent;
     display: flex;
-    align-items: center;
-    flex-wrap: wrap; /* Adjust for responsiveness */
+    flex-direction: row;
+    align-items: center; 
+    justify-content: space-between; 
+    padding: 10px 20px;
+    backdrop-filter: blur(8px);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000; 
+}
+
+.header h4, .header h3 {
+    color: white;
+    margin: 0;
+
+}
+
+.header h4 {
+    font-size: 20px;
+    padding-left: 0px;
+}
+
+.header h3 {
+    position: absolute;
+    left: 150px;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center; 
+}
+
+.logoff-btn {
+    position: absolute;
+    top: 6px;
+    right: 38px;
+    font-size: medium;
+    font-weight: bold;
+    background: transparent;
+    font-size: 40px;
+    color: #e4e4e4;
+    border: none;
+    cursor: pointer;
+    z-index: 1000;
+    pointer-events: auto;
+}
+
+.info-div {
+    position:absolute;
+    top: 6%;
+    width: 100%;
+    padding: 10px 0px;
+    display: flex;
+    flex-direction: row; 
     justify-content: center;
-     /* Center the content */
+    align-items: center;
 }
 
 .A, .B {
     display: flex;
+    flex-direction: row;
     align-items: center;
     transition: .2s ease-in;
-
+    padding: 5px;
 }
 
 .connection-code-div {
     width: auto;
     height: 6vh;
-    border-radius: 7px;
+    width: 240px;
+    border-radius: 4px;
     display: inline-flex;
-    padding: 0px 20px;
+    padding-left: 10px ;
     background-color: transparent;
     align-items: center;
     justify-content: center;
-    margin-bottom: 2%;
-    padding-right: 0px;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 50);
+    backdrop-filter: blur(20px);
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 1);
     transition: .2s ease-in-out;
 }
 
@@ -138,76 +119,29 @@ html, body {
     font-size: larger;
     font-weight: bold;
     text-align: center;
-    letter-spacing: 8px;
-}
-
-.ashost, .asremote {
-    background-color: green;
-    border: none;
-    height: 6vh;
-    font-size: medium;
-    font-weight: bold;
-    width: 12rem;
-    border-radius: 10px;
-    cursor: pointer;
-    padding: 5px;
-    margin-top: 10px;
-}
-
-.ashost {
-    background-color: green;
-    margin-top: 0px;
-    box-shadow: 0px 0px 5px green;
-
-}
-.ashost:hover{
-    background-color: green;
-    transition: .2s ease-in-out;
-    box-shadow: 0px 1px 10px green;
-    transform: scale(1.03);
-}
-.asremote {
-    background-color: #ff3333;
-    margin-top: 1vh;
-    box-shadow: 0px 0px 5px red;
-}
-
-.asremote:hover{
-    background-color: #ff3333;
-    transition: .2s ease-in-out;
-    box-shadow: 0px 0px 5px #ff3333;
-    transform: scale(1.03);
-}
-
-.button button::selection{
-    background-color: transparent;
-}
-
-.button button:focus{
-    transform: scale(0.9);
+    letter-spacing: 7px;
 }
 
 .connection-id-input {
-    width: auto;
+    width: 240px;
     height: 6vh;
     color: white;
     font-size: larger;
     background-color: transparent;
     margin-left: 4%;
-    border-radius: 8px;
+    border-radius: 4px;
     text-align: center;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 50);
-    letter-spacing: 1px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 1);
     outline: none;
     border: none;
     transition: .2s ease-in-out;
-    letter-spacing: 8px;
+    letter-spacing: 6px;
 }
 
 .connection-id-input::placeholder {
     color: white;
     font-size: medium;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
 }
 
 .connection-id-input:focus {
@@ -216,174 +150,231 @@ html, body {
 }
 
 .button {
-    padding: 10px 30px;
-    padding-top: 5px;
-    padding-bottom: 10px;
-    margin-bottom: 1%;
-    
-}
-
-.screen-share-options {
-    position: relative;
-    top: 3vh;
     display: flex;
-    margin-top: 0%;
+    align-items: center;
     justify-content: center;
-    
+    padding: 10px 15px;
 }
 
-.gethostscreenbutton, .sharescreentohost{
-    background-color: #d31d57e8;
-}
-.sharescreentohost,.gethostscreen {
-    border: 1px solid white;
-    height: 5vh;
-    width: 12rem;
-    font-size: medium;
-    font-weight: bold;
-    border-radius: 8px;
-    margin-left: 5px;
-}
-
-.stopoptions {
-    margin-left: 10px;
-    display: flex;
-    justify-content: center;
-}
-
-.stopscreen {
+.ashost, .asremote {
     border: none;
     height: 5vh;
     font-size: medium;
     font-weight: bold;
     border-radius: 8px;
+    cursor: pointer;
+}
+
+.ashost {
+    background-color: green;
+    width: 150px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+}
+.ashost:hover {
+    background-color: green;
+    transition: .2s ease-in-out;
+    transform: scale(1.03);
+}
+.asremote {
+    background-color: #ff3333;
+    width: 180px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+}
+
+.asremote:hover {
+    background-color: #ff3333;
+    transition: .2s ease-in-out;
+    transform: scale(1.03);
+}
+
+.button button::selection {
+    background-color: transparent;
+}
+
+.button button:focus {
+    transform: scale(0.9);
+}
+
+
+.screen-share-options {
+    position:absolute;
+    top: 14.5%;
+    width: 100%;
+    padding: 10px 0px 10px;
+    display: flex;
+    flex-direction: row; 
+    justify-content: center;
+    align-items: center;
+}
+
+
+.gethost-div , .tohost-div{
+    display: none;
+    flex-direction: row;
+    align-items: center;
+    transition: .2s ease-in;
+    padding: 5px;
+}
+.gethostscreen, .sharescreentohost {
+    background: transparent;
+    height: 40px;
+    width: 160px;
+    border-radius: 8px;
+    font-size: medium;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 50);
+}
+/* .gethostscreen {
+    position: absolute;
+    margin-right: 30px;
+    left: 38vw;
+}
+.sharescreentohost{
+    position: absolute;
+    margin-left: 30px;
+    right: 38vw;
+} */
+
+.stopoption {
+    position:absolute;
+    top: 21%;
+    width: 100%;
+    padding: 10px 0px 10px;
+    display: none;
+    flex-direction: row; 
+    justify-content: center;
+    align-items: center;
+}
+
+.stopscreen {
+    border: none;
+    height: 4vh;
+    font-size: medium;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 6px;
     background-color: #fa7c06;
     cursor: pointer;
 }
 
-.stopscreen:hover {
-    background-color: #fa7c06;
-    transition: .2s ease-in-out;
-    box-shadow: 0px 1px 10px 2px #fa7c06;
-    transform: scale(1.05);
-}
 
 .screencontainers {
-    display: block;
+    position: relative;
+    top: 16%;
+    width: 100%;
+    margin-bottom: 10px;
+    margin: 0 auto;
+    margin-bottom: 50px;
+    display: flex;
     justify-content: center;
-    padding-top: 20px;
-    margin-top: 1%;
-    margin-left: 20%;
-    margin-right: 20%;
+    align-items: center;
+    overflow-y: hidden;
 }
 
-/* Responsive Styles */
 @media (max-width: 768px) {
-    .header {
+    .info-div {
         flex-direction: column;
         align-items: center;
     }
 
-    .connection-code-div, .connection-id-input, .ashost, .asremote, .sharescreentohost, .stopscreen, .gethostscreen {
+    .connection-code-div, .connection-id-input{
         width: 100%;
         margin-left: 0;
         margin-right: 0;
     }
-
-    .button {
-        padding: 5px 10px;
-    }
-
-    .logout-button {
-        margin-right: 10px;
+    .connection-id-input{
+        margin-left: 30px;
     }
 
     .screencontainers {
+        height: 500px;
+        margin-top: -10%;
         margin-left: 0;
         margin-right: 0;
         padding: 0 20px;
     }
 
-    .dropdown-menu-container {
-        width: 100%;
-        display: flex;
-        justify-content: flex-end; /* Ensure the dropdown stays to the right */
+    .playback-containers{
+        height: 500px;
+    }
+    .video-container{
+        width: 350px;
+        height: 150px;
     }
 }
 
-@media (max-width: 480px) {
-    .logout-button {
-        font-size: small;
-        padding: 5px 10px;
-    }
-
-    .ashost, .asremote {
-        width: 100%;
-    }
-
-    .dropdown-menu {
-        right: 10px; /* Ensure it stays within bounds on very small screens */
-    }
+.h3-display{
+    margin: 0% auto ;
+    padding: 0px 50px ;
 }
 
-/* Notifications */
-.hostoptions button{
+.playback-containers{
+    top: 0%;
+    margin-top: 0%;
+    padding: 0%;
+    justify-content: center;
+    align-items: center;
+
+}
+
+/* .notification{
+    position: fixed;
+    top: 10%;
+    right: 10%;
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    display: none;
+    font-size: large;
+    transition: opacity 0.5s;
+} */
+
+.video-container{
+    padding: 3% 0% 0% 5% ; 
+    height: 500px;
+   
+}
+
+.hostoptions{
+    position:absolute;
+    top: 17%;
+    width: 100%;
+    padding: 10px 0px 10px;
+    display: none;
+    flex-direction: row; 
+    justify-content: center;
+    align-items: center;
+}
+.hostoptions div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    transition: .2s ease-in;
+    padding: 5px;
+}
+
+.hostoptions button {
     margin-right: 10px;
     width: 12rem;
     padding: 5px 10px;
     font-size: large;
     border-radius: 7px;
 }
-.acceptrequest{
+
+
+.acceptrequest {
     background-color: black;
     font-size: large;
     border: none;
     transition: 0.6s ease-in;
 }
 
-.declinerequest{
+.declinerequest {
     background-color: #fa2b06;
     border: none;
 }
-
-
-.dropdown-menu-container {
-    position: absolute; 
-    right: 10px;
-    z-index: 1000;
-}
-
-
-
-.info-div {
-    width: 99%;
-    display: flex;  
-    flex-direction: row;
-    justify-content: space-between; /* Adjusted for responsiveness */
-    padding: 9px;
-    align-items: center; /* Center align content vertically */
-}
-
-.dropdown-menu-container {
-    position: relative;
-    margin-top: -2%; /* Adjusted from absolute */
-    z-index: 1000;
-}
-
-.dropdown-menu {
-    position: absolute;
-    top: 100%; /* Align dropdown below the button */
-    right: 0; /* Keep dropdown aligned with the button */
-    min-width: 100px; /* Set minimum width */
-    background-color: white;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-    padding: 10px;
-    border-radius: 4px;
-    display: none; /* Hide by default */
-}
-
-.dropdown-menu.show {
-    display: block; /* Show when needed */
-}
-
-

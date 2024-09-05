@@ -48,7 +48,7 @@ window.setScreenSharingStream = function(stream) {
         
     },2000)
     setTimeout(()=>{
-        document.getElementById("stopscreen").hidden = false;
+        document.getElementById("stopoptions").style.display='flex';
     },2000)
 }
 
@@ -77,7 +77,6 @@ window.notify = function(msg) {
 
 window.joinconnection = function() {
     notify("Initiating Connection with Host")
-    // console.log("Joining connection");
     let connection = document.getElementById("connection-input").value;
     if (connection.trim() === "") {
         notify("Please Enter Connection Id");
@@ -90,8 +89,8 @@ window.joinconnection = function() {
         notify("Connected with Host");
         conn = peer.connect(connection_code);
         setTimeout(()=>{
-            document.getElementById("tohost").hidden = false;
-            document.getElementById("gethost").hidden=false;
+            document.getElementById("tohost").style.display='flex';
+            document.getElementById("gethost").style.display='flex';
         },1000)
 
         conn.on('data', (data) => {
@@ -156,7 +155,7 @@ window.startScreenShare = function() {
                 }
             console.log(screenStream);
             setTimeout(() => {
-                document.getElementById("stopscreen").hidden = false;
+                document.getElementById("stopoptions").style.display='flex';
             }, 3000);
         }).catch((error) => {
             console.error("Error accessing screen for sharing: ", error);
@@ -201,7 +200,7 @@ window.hostSideSetup = function() {
             if (data === 'REQUEST_SCREEN_SHARE'){
                 notify("Remote is requesting your screen")
                 setTimeout(()=>{
-                    document.getElementById("hostoptions").hidden=false;
+                    document.getElementById("hostoptions").style.display='flex'
                 },1000)
             } 
             else if(data === 'SCREEN_SHARE_STOPPED'){
@@ -220,7 +219,6 @@ window.screenAccessRequest = function (accepted) {
             screenStream = stream;
             setScreenSharingStream(screenStream);
             if (conn) {
-                // Get the ID of the peer that initiated this connection
                 const remotePeerId = conn.peer;
                 console.log('Received connection from peer ID:', remotePeerId);
                 const mediaConnection = peer.call(remotePeerId, screenStream);

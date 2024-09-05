@@ -115,7 +115,7 @@ const Userdata = ({ authToken }) => {
 
   return (
     <div className='backgroundcontainer'>
-      <div className='logout-button-div'>
+      <div className='logoutbutton-div'>
         <h3>North Western Railways</h3>
           <button onClick={handleLogout} className='logout-button'><IoLogOut /></button>
         </div>

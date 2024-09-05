@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Lottie from 'react-lottie';
-import loginAnimationData from './Components/login.json'; // Existing login animation
-import logoutAnimationData from './Components/logout.json'; // New logout animation
+import loginAnimationData from './Components/login.json';
+import logoutAnimationData from './Components/logout.json';
+import { MdStopScreenShare } from "react-icons/md";
 import api from './api';
+import { IoLogOut } from "react-icons/io5";
 import './Dashboard.css'
-import DropdownMenu from "./DropdownMenu";
 
 const Dashboard = () => {
     const [connectionCode, setConnectionCode] = useState('');
@@ -43,23 +44,7 @@ const Dashboard = () => {
             localStorage.removeItem('token');
         }, 1000);
     };
-    
-    const handleHost = () => {
-        window.createConnection();
-        setTimeout(()=>{
-            setShowDivA(true);
-            setShowDivB(false);
-        },1200)
-    };
-
-    const handleRemote = () => {
-        window.joinconnection()
-        setTimeout(()=>{
-            setShowDivA(false);
-            setShowDivB(true);
-        },1200)
-    };
-    
+        
     const loadScript = (src) => {
         const script = document.createElement('script');
         script.src = src;
@@ -85,59 +70,70 @@ const Dashboard = () => {
         }
     };
 
+    const handleHost = () => {
+        window.createConnection();
+        setTimeout(()=>{
+            setShowDivB(false);
+        },1200)
+    };
+
+    const handleRemote = () => {
+        window.joinconnection()
+        setTimeout(()=>{
+            setShowDivA(false);
+        },1200)
+    };
+
     const handlestreamtohost = () => {
         window.stopScreenSharing();
         document.getElementById("screenshare-container").hidden = true;
-        document.getElementById("stopscreen").hidden=true;
+        document.getElementById("stopoptions").style.display='none';
     };
 
     const handlesharetohost = () => {
         window.shareScreenToHost();
+        setTimeout(()=>{
+            document.getElementById('tohost').style.display='none';
+        },1000)
     };
 
     const handlegethost=()=>{
         window.getHostScreen();
         setTimeout(()=>{
-            document.getElementById('gethost').hidden=true;
+            document.getElementById('gethost').style.display='none';
         },1000)
     }
 
     const handleAcceptRequest=()=>{
         window.screenAccessRequest(true);
-        document.getElementById('hostoptions').hidden=true;
+        document.getElementById('hostoptions').style.display='none'
     }
 
     const handleDeclineRequest=()=>{
         window.declineScreenAccess();
-        document.getElementById('hostoptions').hidden=true;
+        document.getElementById('hostoptions').style.display='none'
     }
 
     return (
         <div className='background'>
+            {loading && (
+                <div className="loading-logo"><Lottie options={isLogout ? logoutOptions : loginOptions} height={200} width={200} />
+                </div>
+                )}     
+
+            <div id="notification" className="notification"></div>
             <div className='dashboard-container'>
-                <div className='info-div'>
-                <h3>Welcome ,&nbsp; {name} !
-                </h3>
-                <div className='dropdown-menu-container'>
-                    <DropdownMenu />
+            <div className='header'>
+                <h4>Welcome ,</h4>
+                <h3>{name} &nbsp;!</h3>
+                <button onClick={handleLogout} className='logoff-btn'><IoLogOut /></button>
                 </div>
-                    {/* <button onClick={handleLogout} className='logoutbutton'><i class="fa-solid fa-power-off fa-2x"></i></button> */}
-                </div>
-                <div>
-                    {loading && (
-                        <div className="loading-logo">
-                            <Lottie options={isLogout ? logoutOptions : loginOptions} height={200} width={200} />
-                        </div>
-                    )}
-                </div>           
-                <div id="notification" className="notification hidden"></div>
-                <div className="header" id='header'>
+                <div className="info-div" >
                     <div className='A' style={{display:showDivA?'flex':'none'}}>
                     <div className='connection-code-div'>
-                            {connectionCode && (
-                                <p className='connection-code'>{connectionCode}<i id="check" style={{display:'inline',color:'red',transition:'.2s ease-in-out'}} className="fa-regular fa-circle-check"></i>
-                                </p>
-                            )}
+                        {connectionCode && (
+                            <p className='connection-code'>{connectionCode}<i id="check" style={{display:'inline',color:'red',transition:'.2s ease-in-out'}} className="fa-regular fa-circle-check"></i></p>
+                        )}
                         </div>
                         <div className='button'>
                             <button className="ashost" id='ashost' onClick={handleHost}>Connect as Host</button>
@@ -151,26 +147,35 @@ const Dashboard = () => {
                     </div>        
                     
                 </div>
-                <div className='screen-share-options' id="popup-container" >
-                    <button className='gethostscreen' id='gethost' onClick={handlegethost}hidden>Get Host Screen</button>
-                    <button className='sharescreentohost' id='tohost' onClick={handlesharetohost}hidden>Share Screen with Host</button>
-                    <div className='stopoptions'>
-                        <button className="stopscreen" id='stopscreen' onClick={handlestreamtohost} hidden>Stop Screen Sharing</button>
+
+                <div className='screen-share-options'>
+                    <div className='gethost-div' id='gethost'>
+                        <button className='gethostscreen'  onClick={handlegethost}>Get Host Screen</button>
                     </div>
-                    <div className='hostoptions' id='hostoptions' hidden>
+                    <div className='tohost-div' id='tohost' >
+                        <button className='sharescreentohost' onClick={handlesharetohost}>Share my Screen</button>
+                    </div>
+                </div>
+                <div className='hostoptions' id='hostoptions'>
+                    <div>
                         <button className="acceptrequest" id='acceptrequest' onClick={handleAcceptRequest}>Accept Request for Share</button>
-                        <button className="declinerequest" id='declinerequest' onClick={handleDeclineRequest}>Decline Request for Share</button>
                     </div>
+                    <div>
+                        <button className="declinerequest" id='declinerequest' onClick={handleDeclineRequest}>Decline Request for Share</button>
+                    </div>       
+                </div>
+                <div className='stopoption' id='stopoptions'>
+                        <button className="stopscreen" id='stopscreen' onClick={handlestreamtohost}><MdStopScreenShare />&nbsp; Stop Sharing</button>
                 </div>
                 
                 <div className='screencontainers' >
-                    <div id="screenshare-container" hidden>
-                        <h2>Shared Screen View</h2> 
-                        <video height="5%" width="100%" id="screenshared-video" controls className="local-video"></video>
+                    <div id="screenshare-container" className='playback-containers' hidden>
+                        <h3 className='h3-display'>Shared Screen View</h3> 
+                        <video  id="screenshared-video" controls className="video-container"></video>
                     </div>  
-                    <div id="remote-vid-container" hidden> 
-                        <h2>Remote Screen View</h2> 
-                        <video height="5%" width="100%" id="remote-video" controls className="remote-video"></video>
+                    <div id="remote-vid-container" hidden className='playback-containers'> 
+                        <h3 className='h3-display'>Remote Screen View</h3> 
+                        <video id="remote-video" controls className="video-container"></video>
                     </div>                   
                 </div>
                 
