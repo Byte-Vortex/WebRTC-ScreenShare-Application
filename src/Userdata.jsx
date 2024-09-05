@@ -26,7 +26,7 @@ const Userdata = ({ authToken }) => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/getUsers', {
+      const response = await axios.get('https://nwr-server.vercel.app/getUsers', {
         headers: { Authorization: `Bearer ${authToken}` },
       });
       setUsers(response.data);
@@ -81,7 +81,7 @@ const Userdata = ({ authToken }) => {
     if (!validateForm()) return;
 
     try {
-      await axios.post('http://localhost:5000/addUser', formData, {
+      await axios.post('https://nwr-server.vercel.app/addUser', formData, {
         headers: { Authorization: `Bearer ${authToken}` },
       });
       notify('User Added Successfully!');
@@ -102,7 +102,7 @@ const Userdata = ({ authToken }) => {
 
   const deleteUser = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/deleteUser/${id}`, {
+      await axios.delete(`https://nwr-server.vercel.app/deleteUser/${id}`, {
         headers: { Authorization: `Bearer ${authToken}` },
       });
       notify('User Deleted Successfully!');

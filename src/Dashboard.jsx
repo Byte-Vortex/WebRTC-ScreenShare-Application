@@ -24,7 +24,7 @@ const Dashboard = () => {
 
     const fetchConnectionCode = async () => {
         try {
-            const response = await api.get('http://localhost:5000/api/getConnectionId');
+            const response = await api.get('https://nwr-server.vercel.app/api/getConnectionId');
             const code = response.data.connectionId;
             const name = response.data.name;
             setConnectionCode(code);

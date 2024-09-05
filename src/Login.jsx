@@ -67,9 +67,9 @@ const Login = () => {
     
         setError('');
         setLoading(true);
-    //https://nwr-server.vercel.app
+    
         try {
-            const response = await axios.post('http://localhost:5000/api/users/login', { username, password });
+            const response = await axios.post('https://nwr-server.vercel.app/api/users/login', { username, password });
     
             if (response.data.success) {
                 localStorage.setItem('token', response.data.token);

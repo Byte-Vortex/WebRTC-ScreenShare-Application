@@ -19,6 +19,14 @@
         {
             "src": "/userdata",
             "dest": "/"
+        },
+        {
+            "src": "/forgot-password",
+            "dest": "/"
+        },
+        {
+            "src": "/reset-password/:token",
+            "dest": "/"
         }
     ]
   }
