@@ -1,32 +1,11 @@
 {
-    "routes": [
-        {
-            "src": "/",
-            "dest": "/"
-        },
-        {
-            "src": "/login",
-            "dest": "/"
-        },
-        {
-            "src": "/dashboard",
-            "dest": "/"
-        },
-        {
-            "src": "/admin",
-            "dest": "/"
-        },
-        {
-            "src": "/userdata",
-            "dest": "/"
-        },
-        {
-            "src": "/forgot-password",
-            "dest": "/"
-        },
-        {
-            "src": "/reset-password/:token",
-            "dest": "/"
-        }
+    "rewrites": [
+        { "source": "/login", "destination": "/" },
+        { "source": "/dashboard", "destination": "/" },
+        { "source": "/admin", "destination": "/" },
+        { "source": "/userdata", "destination": "/" },
+        { "source": "/forgot-password", "destination": "/" },
+        { "source": "/reset-password/:userid/:token", "destination": "/" },
+        { "source": "/(.*)", "destination": "/" }
     ]
-  }
+}
