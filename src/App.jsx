@@ -20,7 +20,7 @@ function App() {
                 <Route path="/userdata" element={authToken ? <Userdata authToken={authToken} /> : <Navigate to="/admin" />} />
                 
                 <Route path="/forgot-password" element={<ForgotPassword />} />
-                <Route path="/reset-password/:token" element={<ResetPassword />} />
+                <Route path="/reset-password/:userid/:token" element={<ResetPassword />} />
 
                 <Route path="/" element={<Login />} />
                 <Route path="*" element={<Login />} />

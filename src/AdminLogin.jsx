@@ -6,7 +6,6 @@ import { HiUsers } from "react-icons/hi2";
 import animationData from './Components/login.json'; 
 import { useNavigate } from 'react-router-dom';
 import './AdminLogin.css'
-import { Link } from 'react-router-dom';
 
 const AdminLogin = ({setAuthToken}) => {
     const [username, setUsername] = useState('');
@@ -122,7 +121,6 @@ const AdminLogin = ({setAuthToken}) => {
                     </div>
                     <div className='remember-forgot'>
                         <label htmlFor="remember"><input type="checkbox" checked={rememberMe} onChange={(e)=>setRememberMe(e.target.checked)} id='remember'/>Remember me</label>
-                        <a href="">Forgot Password ?</a>
                     </div>
                         {error && <p className='error'>{error}</p>}
                     <button className='login-btn' type="submit">Login</button>

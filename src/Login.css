@@ -128,12 +128,12 @@ img{
 
 }
 
-.remember-forgot p{
+.remember-forgot a{
     color: #e4e4e4;
     text-decoration: none;
 }
 
-.remember-forgot p:hover{
+.remember-forgot a:hover{
     text-decoration: underline;
 }
 

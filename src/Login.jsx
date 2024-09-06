@@ -143,7 +143,7 @@ const Login = () => {
                     </div>
                     <div className='remember-forgot'>
                         <label htmlFor="remember"><input type="checkbox" checked={rememberMe} onChange={(e)=>setRememberMe(e.target.checked)} id='remember'/>Remember me</label>
-                        <p><Link className='admin-link' to="/forgot-password">Forgot Password ?</Link></p>
+                        <a href="/forgot-password">Forgot Password ?</a>
                     </div>
                         {error && <p className='error'>{error}</p>}
                     <button className='login-btn' type="submit">Login</button>

@@ -25,7 +25,7 @@
             "dest": "/"
         },
         {
-            "src": "/reset-password/:token",
+            "src": "/reset-password/:userid/:token",
             "dest": "/"
         }
     ]
