@@ -1,16 +1,36 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {FaLock} from "react-icons/fa";
 import { HiUsers } from "react-icons/hi2";
 import './ResetPassword.css'
 
 const ResetPassword = () => {
-    const { token } = useParams(); // Assuming the token is passed in the URL
+    const { userid, token } = useParams();
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
+    const navigate = useNavigate();
+    
+    useEffect(() => {
+        // Validate token when the component mounts
+        const validateToken = async () => {
+            try {
+                const response = await axios.post('https://nwr-server.vercel.app/api/validate-token', { token });
+                if (response.data.status !== 'success') {
+                    setError('Invalid or expired token.');
+                    navigate('/login');
+                    
+                }
+            } catch (error) {
+                setError('Error validating token.');
+            }
+        };
+
+        validateToken();
+    }, [token]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
