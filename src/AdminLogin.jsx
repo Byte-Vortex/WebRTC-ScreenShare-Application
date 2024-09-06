@@ -35,12 +35,13 @@ const AdminLogin = ({setAuthToken}) => {
             return;
         } else if (password === '') {
             setError('Password is required');
-            setTimeout(() => setError(''),1500);
+            setTimeout(() => setError(''), 1500);
             return;
-        } 
-    //https://nwr-server.vercel.app
+        }
+    
         setError('');
         setLoading(true);
+    
         try {
             const response = await axios.post('https://nwr-server.vercel.app/admin/login', { username, password });
             const token = response.data.token;
@@ -49,7 +50,7 @@ const AdminLogin = ({setAuthToken}) => {
                 setAuthToken(token);
                 axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
                 localStorage.setItem('adminToken', token);
-
+    
                 if (rememberMe) {
                     localStorage.setItem('AdminUsername', username);
                 } else {
@@ -67,11 +68,28 @@ const AdminLogin = ({setAuthToken}) => {
             }
         } catch (err) {
             setLoading(false);
-            console.error('There was an error while logging in!', err); // Changed from error to err
-            setError('Invalid Username or Password');
-            setTimeout(() => {setError('');}, 2000);
-        }
-        finally{
+            if (err.response) {
+                const errorMessage = err.response.data.error;
+    
+                if (errorMessage === 'Invalid Username') {
+                    console.error('Invalid Username:', errorMessage);
+                    setError('Invalid Username');
+                } else if (errorMessage === 'Invalid Password') {
+                    console.error('Invalid Password:', errorMessage);
+                    setError('Invalid Password');
+                } else if (err.response.status === 500) {
+                    console.error('Server Error:', errorMessage);
+                    setError('Server error, please try again later');
+                } else {
+                    console.error('Unexpected Error:', errorMessage);
+                    setError('An unexpected error occurred');
+                }
+            } else {
+                console.error('Network Error or No Response from Server:', err.message);
+                setError('Network error, Check your Connection');
+            }
+            setTimeout(() => setError(''), 2000);
+        } finally {
             setUsername('');
             setPassword('');
         }
