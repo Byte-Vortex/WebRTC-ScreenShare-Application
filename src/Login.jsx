@@ -73,7 +73,7 @@ const Login = () => {
     
             if (response.data.success) {
                 localStorage.setItem('token', response.data.token);
-
+    
                 if (rememberMe) {
                     localStorage.setItem('UserUsername', username);
                 } else {
@@ -84,22 +84,37 @@ const Login = () => {
                     setLoading(false);
                     navigate('/dashboard');
                 }, 100);
-            } else {
-                setLoading(false);
-                setError('Invalid Username or Password');
-                setTimeout(() => setError(''), 1000);
             }
         } catch (error) {
             setLoading(false);
-            console.error('There was an error while logging in!', error);
-            setError('Invalid username or password');
+            if (error.response) {
+                // Handle specific error messages from the backend
+                const errorMessage = error.response.data.error;
+    
+                if (errorMessage === 'Invalid Username') {
+                    console.error('Invalid Username:', errorMessage);
+                    setError('Invalid Username');
+                } else if (errorMessage === 'Invalid Password') {
+                    console.error('Invalid Password:', errorMessage);
+                    setError('Invalid Password');
+                } else if (error.response.status === 500) {
+                    console.error('Server Error:', errorMessage);
+                    setError('Server Error, Please try again later');
+                } else {
+                    console.error('Unexpected Error:', errorMessage);
+                    setError('An unexpected Error Occurred');
+                }
+            } else {
+                console.error('Network Error or No Response from Server:', error.message);
+                setError('Network error, Check your Connection');
+            }
             setTimeout(() => setError(''), 2000);
-        }
-        finally{
+        } finally {
             setUsername('');
             setPassword('');
         }
     };
+    
     
     const defaultOptions = {
         loop: true,
