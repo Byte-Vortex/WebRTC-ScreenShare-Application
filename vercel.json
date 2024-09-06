@@ -5,7 +5,7 @@
         { "source": "/admin", "destination": "/" },
         { "source": "/userdata", "destination": "/" },
         { "source": "/forgot-password", "destination": "/" },
-        { "source": "/reset-password/:token", "destination": "/" },
+        { "source": "/reset-password/:userid/:token", "destination": "/" },
         { "source": "/(.*)", "destination": "/" }
     ]
 }
