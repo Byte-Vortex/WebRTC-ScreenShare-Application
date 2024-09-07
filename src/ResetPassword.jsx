@@ -25,7 +25,7 @@ const ResetPassword = () => {
                     
                 }
             } catch (error) {
-                setError('Error validating token.');
+                setError('Token is invalid or expired');
             }
         };
 
