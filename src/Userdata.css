@@ -28,7 +28,7 @@ html, body {
     align-items: center;
 }
 
-.logout-button-div {
+.logoutbutton-div {
     display: flex;
     flex-direction: row;
     width: 100%;
@@ -42,7 +42,7 @@ html, body {
     padding: 20px 0px 20px 0px;
 }
 
-.logout-button-div h3{
+.logoutbutton-div h3{
     position: absolute;
     left: 10%;
     right: 10%;
