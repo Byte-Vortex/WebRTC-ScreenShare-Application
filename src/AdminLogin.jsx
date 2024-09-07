@@ -107,7 +107,7 @@ const AdminLogin = ({setAuthToken}) => {
 
 
   return (
-    <div className="container-div">   
+    <div className="container--div">   
             {loading && (<div className="loading-logo"><Lottie options={defaultOptions} height={150} width={150} /></div>)}
             <img src="/NWR.png" alt="" />
             <h1 className='h1-nwr'>North Western railways</h1>
