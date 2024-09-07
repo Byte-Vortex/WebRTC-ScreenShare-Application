@@ -73,7 +73,7 @@ const ResetPassword = () => {
     
 
     return (
-        <div className='container-div'>
+        <div className='Container-Div'>
             <h1 className='h1nwr'>North Western railways</h1>
             <div className='reset-container'>
                 <form className='reset-form'onSubmit={handleSubmit} noValidate>

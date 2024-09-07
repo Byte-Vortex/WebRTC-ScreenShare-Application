@@ -49,7 +49,7 @@ const ForgotPassword = () => {
     };
 
     return (
-        <div className='container-div'>
+        <div className='Container-div'>
             <h1 className='h1nwr'>North Western railways</h1>
             <div className='reset-container'>
                 <form className="forgot-form" onSubmit={handleSubmit} noValidate>
