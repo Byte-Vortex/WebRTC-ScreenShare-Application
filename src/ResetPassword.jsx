@@ -25,7 +25,7 @@ const ResetPassword = () => {
                     
                 }
             } catch (error) {
-                setError('Token is invalid or expired');
+                setError('Rest link is invalid or expired');
             }
         };
 
