@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Lottie from 'react-lottie';
-import loginAnimationData from './Components/login.json';
+import loginAnimationData from './Components/Loading.json';
 import logoutAnimationData from './Components/logout.json';
 import { MdStopScreenShare } from "react-icons/md";
 import api from './api';
