@@ -161,7 +161,7 @@ const Login = () => {
                         <a href="/forgot-password">Forgot Password ?</a>
                     </div>
                         {error && <p className='error'>{error}</p>}
-                    <button className='login-btn' type="submit">Login</button>
+                    <button className='login-button' type="submit">Login</button>
                     <div className='admin-login'>
                         <p>Are you Admin &nbsp;<span className='admin-icon'><FaUserShield /> </span> &nbsp; &nbsp; &nbsp; &nbsp;<Link className='admin-link' to="/admin">Login Here!</Link></p>
                     </div>
