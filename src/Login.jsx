@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Lottie from 'react-lottie';
 import { FaUser, FaLock ,FaUserShield} from "react-icons/fa";
-import animationData from './Components/login.json'; 
+import animationData from './Components/Loading.json'; 
 import './Login.css';
 import { Link } from 'react-router-dom';
 

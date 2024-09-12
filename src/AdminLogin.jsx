@@ -3,7 +3,7 @@ import axios from 'axios';
 import Lottie from 'react-lottie';
 import { FaUser, FaLock} from "react-icons/fa";
 import { HiUsers } from "react-icons/hi2";
-import animationData from './Components/login.json'; 
+import animationData from './Components/Loading.json'; 
 import { useNavigate } from 'react-router-dom';
 import './AdminLogin.css'
 
