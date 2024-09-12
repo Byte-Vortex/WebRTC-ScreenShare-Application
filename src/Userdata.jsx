@@ -26,14 +26,23 @@ const Userdata = ({ authToken }) => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('https://nwr-server.vercel.app/getUsers', {
-        headers: { Authorization: `Bearer ${authToken}` },
-      });
-      setUsers(response.data);
+        const response = await axios.get('https://nwr-server.vercel.app/getUsers', {
+            headers: { Authorization: `Bearer ${authToken}` },
+        });
+        setUsers(response.data);
     } catch (error) {
-      console.error('Error fetching users:', error);
+        console.error('Error fetching users:', error);
+        if (error.response) {
+            // Server responded with an error status
+            setError('Error fetching users from server');
+        } else {
+            // Network error or no response
+            setError('Network error, please try again');
+        }
+        setTimeout(() => setError(''), 2000);
     }
-  };
+};
+
 
   const handleLogout = () => {
     setLoading(true);
@@ -80,24 +89,29 @@ const Userdata = ({ authToken }) => {
     if (!validateForm()) return;
 
     try {
-      await axios.post('https://nwr-server.vercel.app/addUser', formData, {
-        headers: { Authorization: `Bearer ${authToken}` },
-      });
-      notify('User Added Successfully!');
-      setTimeout(() => 
-        setFormData({ name: '', username: '', email: '', password: '' })
-        , 1300);
-      fetchUsers();
+        await axios.post('https://nwr-server.vercel.app/addUser', formData, {
+            headers: { Authorization: `Bearer ${authToken}` },
+        });
+        notify('User Added Successfully!');
+        setTimeout(() => setFormData({ name: '', username: '', email: '', password: '' }), 1300);
+        fetchUsers();
     } catch (error) {
-      setError('Use Another Username / Email for User');
-      setTimeout(() => 
-        setFormData({ name: '', username: '', email: '', password: '' })
-        , 1300);
-      setTimeout(() => setError(''), 2000);
-      fetchUsers();
-      console.error('Error adding user:', error);
+        console.error('Error adding user:', error);
+        if (error.response) {
+            // Backend responded with a specific error message
+            setError(error.response.data.message || 'Error adding user');
+        } else {
+            // Network or unknown error
+            setError('Network error, please try again');
+        }
+        setTimeout(() => {
+            setFormData({ name: '', username: '', email: '', password: '' });
+            setError('');
+        }, 2000);
+        fetchUsers();
     }
-  };
+};
+
 
   const deleteUser = async (id) => {
     try {
