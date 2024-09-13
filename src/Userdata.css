@@ -67,7 +67,7 @@ html, body {
 .logout-button {
     position: absolute;
     top: 6px;
-    right: 60px;
+    right: 40px;
     font-size: medium;
     font-weight: bold;
     background: transparent;

@@ -41,7 +41,7 @@ const AdminLogin = ({setAuthToken}) => {
     
         setError('');
         setLoading(true);
-    
+        
         try {
             const response = await axios.post('https://nwr-server.vercel.app/admin/login', { username, password });
             const { token, adminName } = response.data;
