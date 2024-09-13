@@ -66,7 +66,8 @@ html, body {
 
 .logout-button {
     position: absolute;
-    right: 0;
+    top: 6px;
+    right: 38px;
     font-size: medium;
     font-weight: bold;
     background: transparent;
@@ -74,6 +75,8 @@ html, body {
     color: #e4e4e4;
     border: none;
     cursor: pointer;
+    z-index: 1000;
+    pointer-events: auto;
 }
 
 
