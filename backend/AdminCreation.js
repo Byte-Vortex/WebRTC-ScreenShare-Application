@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 require('dotenv').config();
 
-const adminUri = proess.env.MONGODB_URI;
+const adminUri = process.env.MONGODB_URI;
 const adminSchema = new mongoose.Schema({
-  name:{
+  name: {
     type: String,
     required: true,
   },
@@ -21,11 +21,12 @@ const adminSchema = new mongoose.Schema({
 
 const Admin = mongoose.model('Admin', adminSchema);
 
-mongoose.connect(adminUri, { useNewUrlParser: true, useUnifiedTopology: true })
+// Connect to MongoDB (removed deprecated options)
+mongoose.connect(adminUri)
   .then(() => console.log('MongoDB connected...'))
   .catch(err => console.log('MongoDB connection error:', err));
 
-async function createAdmin(name,username, plaintextPassword) {
+async function createAdmin(name, username, plaintextPassword) {
   try {
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(plaintextPassword, saltRounds);
@@ -38,12 +39,13 @@ async function createAdmin(name,username, plaintextPassword) {
 
     await newAdmin.save();
     console.log(`Admin ${username} created successfully`);
-    mongoose.disconnect();
   } catch (err) {
-    console.error(`Error creating admin ${username}:, err.message`);
+    console.error(`Error creating admin ${username}: ${err.message}`);
+  } finally {
+    // Ensure mongoose disconnects after operation
     mongoose.disconnect();
   }
 }
 
-// Replace 'admin' and 'adminpassword' with your desired admin username and password
-createAdmin('Admin','admin', '1234');
+// Create the admin
+createAdmin('Admin', 'admin', '1234');

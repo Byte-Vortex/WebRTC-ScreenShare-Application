@@ -77,18 +77,8 @@ const userSchema = new mongoose.Schema({
 
 // Admin Schema
 const adminSchema = new mongoose.Schema({
+    name: { type: String, required: true },
     username: { type: String, required: true, unique: true },
-    email: {
-        type: String,
-        required: true,
-        unique: true,
-        validate: {
-            validator: function (v) {
-                return validator.isEmail(v);
-            },
-            message: props => `${props.value} is not a valid email address!`
-        }
-    },
     password: { type: String, required: true },
 });
 
