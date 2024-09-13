@@ -8,33 +8,37 @@ module.exports = (Admin, jwtSecret) => {
     router.post('/login', async (req, res) => {
         const { username, password } = req.body;
         console.log('Received Admin Login request for:', username);
-
+    
         try {
             const admin = await Admin.findOne({ username });
-
+    
             if (!admin) {
-                console.log('Invalid Username or Password');
-                return res.status(401).send({ error: 'Invalid username or password' }); // Generic error
+                console.log('Username not found');
+                return res.status(401).send({ error: 'Invalid Username' });
             }
-
+    
             const isMatch = await bcrypt.compare(password, admin.password);
-            if (!isMatch) {
-                console.log("Invalid Username or Password");
-                return res.status(401).send({ error: 'Invalid username or password' }); // Generic error
+            if (isMatch) {
+                console.log(username, ': Admin Password Matched');
+                try {
+                    const token = jwt.sign({ id: admin._id }, jwtSecret, { expiresIn: '30m' });
+                    console.log('Generated Admin Token:', token);
+                    // Return both the token and the admin name
+                    res.json({ success: true, token, adminName: admin.name });
+                } catch (error) {
+                    console.error('Error Generating Admin token:', error);
+                    res.status(500).send({ error: 'Error generating token' });
+                }
+            } else {
+                console.log("Admin Password Doesn't Match");
+                res.status(401).send({ error: 'Invalid Password' });
             }
-
-            // Generate token
-            const token = jwt.sign({ id: admin._id }, jwtSecret, { expiresIn: '30m' });
-            console.log('Generated Admin Token:', token);
-            
-            // Send token and adminName
-            res.json({ success: true, token, adminName: admin.username });
-
         } catch (error) {
             console.error('Error During Admin Login:', error);
             res.status(500).send({ error: 'Server error' });
         }
     });
+    
 
     return router;
 };
