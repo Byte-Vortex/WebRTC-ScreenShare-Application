@@ -130,7 +130,8 @@ const Userdata = ({ authToken }) => {
   return (
     <div className='backgroundcontainer'>
       <div className='logoutbutton-div'>
-      <h4>{`Welcome, ${adminName} To Admin Dashboard`}</h4>
+        <h4>Welcome ,</h4>
+        <h3>{adminName} &nbsp;!</h3>
           <button onClick={handleLogout} className='logout-button'><IoLogOut /></button>
         </div>
         {loading && (
