@@ -21,7 +21,7 @@ const Dashboard = () => {
         loadScript('/script.js');
         fetchConnectionCode();
     }, []);
-
+    
     const fetchConnectionCode = async () => {
         try {
             const response = await api.get('https://nwr-server.vercel.app/api/getConnectionId');
@@ -171,7 +171,7 @@ const Dashboard = () => {
                 <div className='screencontainers' >
                     <div id="screenshare-container" className='playback-containers' hidden>
                         <h3 className='h3-display'>Shared Screen View</h3> 
-                        <video  id="screenshared-video" controls className="video-container"></video>
+                        <video id="screenshared-video" controls className="video-container"></video>
                     </div>  
                     <div id="remote-vid-container" hidden className='playback-containers'> 
                         <h3 className='h3-display'>Remote Screen View</h3> 

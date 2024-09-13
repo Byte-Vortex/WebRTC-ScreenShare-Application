@@ -228,16 +228,6 @@ html, body {
     outline: none;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 50);
 }
-/* .gethostscreen {
-    position: absolute;
-    margin-right: 30px;
-    left: 38vw;
-}
-.sharescreentohost{
-    position: absolute;
-    margin-left: 30px;
-    right: 38vw;
-} */
 
 .stopoption {
     position:absolute;
@@ -261,19 +251,62 @@ html, body {
     cursor: pointer;
 }
 
-
 .screencontainers {
-    position: relative;
-    top: 16%;
-    width: 100%;
-    margin-bottom: 10px;
-    margin: 0 auto;
-    margin-bottom: 50px;
+    position: absolute;
+    width: 95%;
+    top: 28%;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: row;
+    gap: 20px; 
+    padding-bottom: 10px;
+    margin-bottom: 5px;
     overflow-y: hidden;
-}
+  }
+  
+  .playback-containers {
+    flex-direction: column;
+    align-items: center;
+    backdrop-filter: blur(8px);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: transparent; 
+    border: 1px solid #ccc;
+    border-radius: 8px; 
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 800px; 
+    margin: 0 auto; 
+  }
+  
+  .h3-display {
+    font-size: 1.5em;
+    margin-top: 0px;
+    margin-bottom: 5px;
+    color: white;
+  }
+  
+
+  .video-container {
+    width: 100%; 
+    height:auto; 
+    max-height: 500px;
+    border-radius: 4px;
+    overflow-y: hidden; 
+  }
+  
+
+  @media (max-width: 600px) {
+    .screencontainers {
+      flex-direction: column;
+      padding: 10px; 
+    }
+  
+    .playback-containers {
+      max-width: 100%;
+    }
+  }
+  
+
 
 @media (max-width: 768px) {
     .info-div {
@@ -290,56 +323,7 @@ html, body {
         margin-left: 30px;
     }
 
-    .screencontainers {
-        height: 500px;
-        margin-top: -10%;
-        margin-left: 0;
-        margin-right: 0;
-        padding: 0 20px;
-    }
-
-    .playback-containers{
-        height: 500px;
-    }
-    .video-container{
-        width: 350px;
-        height: 150px;
-    }
 }
-
-.h3-display{
-    margin: 0% auto ;
-    padding: 0px 50px ;
-}
-
-.playback-containers{
-    top: 0%;
-    margin-top: 0%;
-    padding: 0%;
-    justify-content: center;
-    align-items: center;
-
-}
-
-/* .notification{
-    position: fixed;
-    top: 10%;
-    right: 10%;
-    background-color: #333;
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
-    display: none;
-    font-size: large;
-    transition: opacity 0.5s;
-} */
-
-.video-container{
-    padding: 3% 0% 0% 5% ; 
-    height: 500px;
-   
-}
-
 .hostoptions{
     position:absolute;
     top: 17%;
@@ -364,6 +348,7 @@ html, body {
     padding: 5px 10px;
     font-size: large;
     border-radius: 7px;
+    cursor: pointer;
 }
 
 
@@ -378,3 +363,4 @@ html, body {
     background-color: #fa2b06;
     border: none;
 }
+
