@@ -20,6 +20,8 @@ const Userdata = ({ authToken }) => {
   const [view, setView] = useState('manage');
   const navigate = useNavigate();
 
+  const adminName = localStorage.getItem('adminName');
+
   useEffect(() => {
     fetchUsers();
   }, []);
@@ -33,10 +35,8 @@ const Userdata = ({ authToken }) => {
     } catch (error) {
         console.error('Error fetching users:', error);
         if (error.response) {
-            // Server responded with an error status
             setError('Error fetching users from server');
         } else {
-            // Network error or no response
             setError('Network error, please try again');
         }
         setTimeout(() => setError(''), 2000);
@@ -51,6 +51,7 @@ const Userdata = ({ authToken }) => {
       navigate('/admin');
       delete axios.defaults.headers.common['Authorization'];
       localStorage.removeItem('adminToken');
+      localStorage.removeItem('adminName');
     }, 1000);
   };
 
@@ -129,7 +130,7 @@ const Userdata = ({ authToken }) => {
   return (
     <div className='backgroundcontainer'>
       <div className='logoutbutton-div'>
-        <h3>North Western Railways</h3>
+      <h3>{adminName ? `Welcome, ${adminName}` : 'To Admin Dashboard'}</h3>
           <button onClick={handleLogout} className='logout-button'><IoLogOut /></button>
         </div>
         {loading && (

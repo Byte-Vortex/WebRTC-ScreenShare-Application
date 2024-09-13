@@ -44,12 +44,13 @@ const AdminLogin = ({setAuthToken}) => {
     
         try {
             const response = await axios.post('https://nwr-server.vercel.app/admin/login', { username, password });
-            const token = response.data.token;
+            const { token, adminName } = response.data;
     
             if (token) {
                 setAuthToken(token);
                 axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
                 localStorage.setItem('adminToken', token);
+                localStorage.setItem('adminName', adminName);
     
                 if (rememberMe) {
                     localStorage.setItem('AdminUsername', username);

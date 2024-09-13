@@ -48,4 +48,4 @@ async function createAdmin(name, username, plaintextPassword) {
 }
 
 // Create the admin
-createAdmin('Admin', 'admin', '1234');
+createAdmin('Admin', 'admin', '');
