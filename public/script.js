@@ -168,13 +168,35 @@ window.startScreenShare = function() {
             videoTrack.onended = () => {
                 stopScreenSharing();
             };
+            // if (peer) {
+            //     let sender = currentPeer.peerConnection.getSenders().find(function(s) {
+            //         return s.track.kind == videoTrack.kind;
+            //     });
+            //         sender.replaceTrack(videoTrack);
+            //         screenSharing = true;
+            //     }
+
             if (peer) {
-                let sender = currentPeer.peerConnection.getSenders().find(function(s) {
-                    return s.track.kind == videoTrack.kind;
+                let videoTrack = screenStream.getVideoTracks()[0];
+                let audioTrack = screenStream.getAudioTracks()[0]; // Get the audio track
+            
+                let videoSender = currentPeer.peerConnection.getSenders().find(function(s) {
+                    return s.track.kind === videoTrack.kind;
                 });
-                    sender.replaceTrack(videoTrack);
-                    screenSharing = true;
+                let audioSender = currentPeer.peerConnection.getSenders().find(function(s) {
+                    return s.track.kind === audioTrack.kind; // Find the audio sender
+                });
+            
+                if (videoSender) {
+                    videoSender.replaceTrack(videoTrack);
                 }
+                if (audioSender) {
+                    audioSender.replaceTrack(audioTrack); // Replace the audio track as well
+                }
+            
+                screenSharing = true;
+            }
+
             console.log(screenStream);
             setTimeout(() => {
                 document.getElementById("stopoptions").style.display='flex';
@@ -269,76 +291,95 @@ window.screenAccessRequest = function (accepted) {
 
 window.sendStreamToRemote = function (stream) {
     notify("Screen Share Initiated")
-    const createMediaStreamFake = () => {
-        return new MediaStream([createEmptyAudioTrack(), createEmptyVideoTrack({ width: 640, height: 480 })]);
-    }
+    // const createMediaStreamFake = () => {
+    //     return new MediaStream([createEmptyAudioTrack(), createEmptyVideoTrack({ width: 640, height: 480 })]);
+    // }
 
-    const createEmptyAudioTrack = () => {
-        const ctx = new AudioContext();
-        const oscillator = ctx.createOscillator();
-        const dst = oscillator.connect(ctx.createMediaStreamDestination());
-        oscillator.start();
-        const track = dst.stream.getAudioTracks()[0];
-        return Object.assign(track, { enabled: false });
-    }
+    // const createEmptyAudioTrack = () => {
+    //     const ctx = new AudioContext();
+    //     const oscillator = ctx.createOscillator();
+    //     const dst = oscillator.connect(ctx.createMediaStreamDestination());
+    //     oscillator.start();
+    //     const track = dst.stream.getAudioTracks()[0];
+    //     return Object.assign(track, { enabled: false });
+    // }
 
-    const createEmptyVideoTrack = ({ width, height }) => {
-        const canvas = Object.assign(document.createElement('canvas'), { width, height });
-        const ctx = canvas.getContext('2d');
-        ctx.fillStyle = "green";
-        ctx.fillRect(0, 0, width, height);
+    // const createEmptyVideoTrack = ({ width, height }) => {
+    //     const canvas = Object.assign(document.createElement('canvas'), { width, height });
+    //     const ctx = canvas.getContext('2d');
+    //     ctx.fillStyle = "green";
+    //     ctx.fillRect(0, 0, width, height);
 
-        const stream = canvas.captureStream();
-        const track = stream.getVideoTracks()[0];
+    //     const stream = canvas.captureStream();
+    //     const track = stream.getVideoTracks()[0];
 
-        return Object.assign(track, { enabled: false });
-    };
+    //     return Object.assign(track, { enabled: false });
+    // };
 
     
-    startScreenShare();
-    let call = peer.call(connection_code, createMediaStreamFake())
-    call.on('stream', (stream) => {
-        setRemoteStream(stream);
-        currentPeer = call;
+    // startScreenShare();
+    // let call = peer.call(connection_code, createMediaStreamFake())
+    // call.on('stream', (stream) => {
+    //     setRemoteStream(stream);
+    //     currentPeer = call;
 
-    })
+    // })
+    navigator.mediaDevices.getDisplayMedia({ video: true, audio: true }).then((stream) => {
+        let call = peer.call(connection_code, stream);
+        call.on('stream', (remoteStream) => {
+            setRemoteStream(remoteStream);
+        });
+        currentPeer = call;
+    }).catch((error) => {
+        console.error("Error accessing screen for sharing: ", error);
+    });
 }
 
 window.shareScreenToHost = function() {
     console.log("Sharing Screen with Host");
     notify("Screen Share Initiated")
-    const createMediaStreamFake = () => {
-        return new MediaStream([createEmptyAudioTrack(), createEmptyVideoTrack({ width: 360, height: 240 })]);
-    }
+    // const createMediaStreamFake = () => {
+    //     return new MediaStream([createEmptyAudioTrack(), createEmptyVideoTrack({ width: 360, height: 240 })]);
+    // }
 
-    const createEmptyAudioTrack = () => {
-        const ctx = new AudioContext();
-        const oscillator = ctx.createOscillator();
-        const dst = oscillator.connect(ctx.createMediaStreamDestination());
-        oscillator.start();
-        const track = dst.stream.getAudioTracks()[0];
-        return Object.assign(track, { enabled: false });
-    }
+    // const createEmptyAudioTrack = () => {
+    //     const ctx = new AudioContext();
+    //     const oscillator = ctx.createOscillator();
+    //     const dst = oscillator.connect(ctx.createMediaStreamDestination());
+    //     oscillator.start();
+    //     const track = dst.stream.getAudioTracks()[0];
+    //     return Object.assign(track, { enabled: false });
+    // }
 
-    const createEmptyVideoTrack = ({ width, height }) => {
-        const canvas = Object.assign(document.createElement('canvas'), { width, height });
-        const ctx = canvas.getContext('2d');
-        ctx.fillStyle = "green";
-        ctx.fillRect(0, 0, width, height);
+    // const createEmptyVideoTrack = ({ width, height }) => {
+    //     const canvas = Object.assign(document.createElement('canvas'), { width, height });
+    //     const ctx = canvas.getContext('2d');
+    //     ctx.fillStyle = "green";
+    //     ctx.fillRect(0, 0, width, height);
 
-        const stream = canvas.captureStream();
-        const track = stream.getVideoTracks()[0];
+    //     const stream = canvas.captureStream();
+    //     const track = stream.getVideoTracks()[0];
 
-        return Object.assign(track, { enabled: false });
-        };
+    //     return Object.assign(track, { enabled: false });
+    //     };
 
     
-    let call = peer.call(connection_code, createMediaStreamFake())
-    call.on('stream', (stream) => {
-        setRemoteStream(stream);
-        })
+    // let call = peer.call(connection_code, createMediaStreamFake())
+    // call.on('stream', (stream) => {
+    //     setRemoteStream(stream);
+    //     })
 
-    currentPeer = call;
-    startScreenShare();   
+    // currentPeer = call;
+    // startScreenShare();   
+
+    navigator.mediaDevices.getDisplayMedia({ video: true, audio: true }).then((stream) => {
+        let call = peer.call(connection_code, stream);
+        call.on('stream', (remoteStream) => {
+            setRemoteStream(remoteStream);
+        });
+        currentPeer = call;
+    }).catch((error) => {
+        console.error("Error accessing screen for sharing: ", error);
+    });
 }
 
