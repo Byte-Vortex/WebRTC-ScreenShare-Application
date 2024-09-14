@@ -397,52 +397,90 @@ window.sendStreamToRemote = function (stream) {
     });
 }
 
-window.shareScreenToHost = function() {
-    console.log("Sharing Screen with Host");
-    notify("Screen Share Initiated")
-    // const createMediaStreamFake = () => {
-    //     return new MediaStream([createEmptyAudioTrack(), createEmptyVideoTrack({ width: 360, height: 240 })]);
-    // }
+// window.shareScreenToHost = function() {
+//     console.log("Sharing Screen with Host");
+//     notify("Screen Share Initiated")
+//     // const createMediaStreamFake = () => {
+//     //     return new MediaStream([createEmptyAudioTrack(), createEmptyVideoTrack({ width: 360, height: 240 })]);
+//     // }
 
-    // const createEmptyAudioTrack = () => {
-    //     const ctx = new AudioContext();
-    //     const oscillator = ctx.createOscillator();
-    //     const dst = oscillator.connect(ctx.createMediaStreamDestination());
-    //     oscillator.start();
-    //     const track = dst.stream.getAudioTracks()[0];
-    //     return Object.assign(track, { enabled: false });
-    // }
+//     // const createEmptyAudioTrack = () => {
+//     //     const ctx = new AudioContext();
+//     //     const oscillator = ctx.createOscillator();
+//     //     const dst = oscillator.connect(ctx.createMediaStreamDestination());
+//     //     oscillator.start();
+//     //     const track = dst.stream.getAudioTracks()[0];
+//     //     return Object.assign(track, { enabled: false });
+//     // }
 
-    // const createEmptyVideoTrack = ({ width, height }) => {
-    //     const canvas = Object.assign(document.createElement('canvas'), { width, height });
-    //     const ctx = canvas.getContext('2d');
-    //     ctx.fillStyle = "green";
-    //     ctx.fillRect(0, 0, width, height);
+//     // const createEmptyVideoTrack = ({ width, height }) => {
+//     //     const canvas = Object.assign(document.createElement('canvas'), { width, height });
+//     //     const ctx = canvas.getContext('2d');
+//     //     ctx.fillStyle = "green";
+//     //     ctx.fillRect(0, 0, width, height);
 
-    //     const stream = canvas.captureStream();
-    //     const track = stream.getVideoTracks()[0];
+//     //     const stream = canvas.captureStream();
+//     //     const track = stream.getVideoTracks()[0];
 
-    //     return Object.assign(track, { enabled: false });
-    //     };
+//     //     return Object.assign(track, { enabled: false });
+//     //     };
 
     
-    // let call = peer.call(connection_code, createMediaStreamFake())
-    // call.on('stream', (stream) => {
-    //     setRemoteStream(stream);
-    //     })
+//     // let call = peer.call(connection_code, createMediaStreamFake())
+//     // call.on('stream', (stream) => {
+//     //     setRemoteStream(stream);
+//     //     })
 
-    // currentPeer = call;
+//     // currentPeer = call;
        
 
-    navigator.mediaDevices.getDisplayMedia({ video: true, audio: true }).then((stream) => {
+//     navigator.mediaDevices.getDisplayMedia({ video: true, audio: true }).then((stream) => {
+//         let call = peer.call(connection_code, stream);
+//         call.on('stream', (remoteStream) => {
+//             setRemoteStream(remoteStream);
+//         });
+//         currentPeer = call;
+//         startScreenShare();
+//     }).catch((error) => {
+//         console.error("Error accessing screen for sharing: ", error);
+//     });
+// }
+
+window.shareScreenToHost = function() {
+    console.log("Sharing Screen with Host");
+    notify("Screen Share Initiated");
+
+    // Check if the peer connection is active
+    if (!peer || !connection_code) {
+        console.error("Peer connection is not established.");
+        notify("Failed to share screen. Connection is not established.");
+        return;
+    }
+
+    // Access screen sharing media
+    navigator.mediaDevices.getDisplayMedia({ video: true, audio: true })
+    .then((stream) => {
+        // Call the host with the screen stream
         let call = peer.call(connection_code, stream);
+
         call.on('stream', (remoteStream) => {
-            setRemoteStream(remoteStream);
+            console.log("Receiving remote stream from host");
+            setRemoteStream(remoteStream); // Set remote stream to display on UI
         });
+
+        // Handle the local stream being shared (optional)
         currentPeer = call;
         startScreenShare();
-    }).catch((error) => {
+
+        // Optional: Stop screen sharing when user stops it manually
+        stream.getVideoTracks()[0].addEventListener('ended', () => {
+            console.log("Screen sharing stopped.");
+            notify("Screen sharing stopped.");
+            stopScreenShare(); // Optional function to handle screen share stopping logic
+        });
+    })
+    .catch((error) => {
         console.error("Error accessing screen for sharing: ", error);
+        notify("Failed to share screen. Please check your screen sharing permissions.");
     });
 }
-
