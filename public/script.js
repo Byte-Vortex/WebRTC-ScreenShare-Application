@@ -6,7 +6,6 @@ var peer = null;
 var currentPeer = null;
 var screenSharing = false;
 var conn = null;
-import axios from 'axios';
 
 window.createConnection = function() {
     notify("Initiating Connection");
@@ -88,7 +87,6 @@ window.joinconnection = async function() {
     connection_code = connection;
 
     try {
-        // Step 1: Verify the connection ID from the backend
         const response = await axios.post(`https://nwr-server.vercel.app/api/verify-connection`, { connectionId: connection_code });
         
         if (response.data.success) {
