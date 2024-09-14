@@ -89,6 +89,7 @@ app.get("/", (req, res) => {
     res.json("Hello");
 });
 
+// -------------------- User Login --------------------
 app.post('/api/users/login', async (req, res) => {
     const { username, password } = req.body;
     console.log('Received Login Request for:', username);
@@ -123,7 +124,7 @@ app.post('/api/users/login', async (req, res) => {
 });
 
 
-// Forgot Password Route
+// -------------------- Forgot Password --------------------
 app.post('/api/forgot-password', async (req, res) => {
     const { email } = req.body;
     console.log('Received Forgot Password Request for:', email);
@@ -157,46 +158,81 @@ app.post('/api/forgot-password', async (req, res) => {
     }
 });
 
-function sendPasswordResetEmail(email, resetLink) {
+// function sendPasswordResetEmail(email, resetLink) {
+//     const transporter = nodemailer.createTransport({
+//         host: 'smtp.gmail.com',
+//         port: 587,
+//         secure: false, // Use STARTTLS
+//         auth: {
+//             user: process.env.EMAIL_USER,
+//             pass: process.env.EMAIL_PASS,
+//         },
+//         connectionTimeout: 60000, // 1 minute
+//     });
+
+//     const mailOptions = {
+//         from: process.env.EMAIL_USER,
+//         to: email,
+//         subject: 'Reset Password Link',
+//         text: `Password Reset Requested
+
+//         You have requested a password reset for your account. Please click the link below to reset your password within 10 minutes:
+
+//         ${resetLink}
+
+//         Important: If you did not request this password reset, please ignore this email.`,
+//     };
+
+//     // Use Promise-based approach for better error handling
+//     return new Promise((resolve, reject) => {
+//         transporter.sendMail(mailOptions, (err, info) => {
+//             if (err) {
+//                 console.error('Error sending email:', err);
+//                 return reject(new Error('Error sending password reset email'));
+//             } else {
+//                 console.log('Email sent successfully:', info.response);
+//                 return resolve(info.response);
+//             }
+//         });
+//     });
+// }
+
+// -------------------- Helper Function for Sending Emails --------------------
+async function sendPasswordResetEmail(toEmail, resetLink) {
     const transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         port: 587,
-        secure: false, // Use STARTTLS
+        secure: false,
         auth: {
             user: process.env.EMAIL_USER,
             pass: process.env.EMAIL_PASS,
-        },
-        connectionTimeout: 60000, // 1 minute
+        }
     });
 
     const mailOptions = {
         from: process.env.EMAIL_USER,
-        to: email,
-        subject: 'Reset Password Link',
-        text: `Password Reset Requested
-
-        You have requested a password reset for your account. Please click the link below to reset your password within 10 minutes:
-
-        ${resetLink}
-
-        Important: If you did not request this password reset, please ignore this email.`,
+        to: toEmail,
+        subject: 'Password Reset Requested',
+        html: `<p>You have requested a password reset. Click <a href="${resetLink}">Here</a> to reset your password.
+        Important: If you did not request this password reset, please ignore this email.
+        </p>`
     };
 
     // Use Promise-based approach for better error handling
-    return new Promise((resolve, reject) => {
-        transporter.sendMail(mailOptions, (err, info) => {
-            if (err) {
-                console.error('Error sending email:', err);
-                return reject(new Error('Error sending password reset email'));
-            } else {
-                console.log('Email sent successfully:', info.response);
-                return resolve(info.response);
-            }
+        return new Promise((resolve, reject) => {
+            transporter.sendMail(mailOptions, (err, info) => {
+                if (err) {
+                    console.error('Error sending email:', err);
+                    return reject(new Error('Error sending password reset email'));
+                } else {
+                    console.log('Email sent successfully:', info.response);
+                    return resolve(info.response);
+                }
+            });
         });
-    });
 }
 
-//Validate reset password token
+// -------------------- Validate Reset Token --------------------
 app.post('/api/validate-token', async (req, res) => {
     const { token } = req.body;
 
@@ -216,31 +252,43 @@ app.post('/api/validate-token', async (req, res) => {
 });
 
 
-// Reset Password Route
+// -------------------- Reset Password --------------------
 app.post('/api/reset-password', async (req, res) => {
     const { token, newPassword } = req.body;
 
     try {
+        // Find the password reset token in the database
         const passwordReset = await PasswordResetToken.findOne({ token });
+        
+        // Check if the token is invalid or expired
         if (!passwordReset || passwordReset.expiration < Date.now()) {
             return res.status(400).send('Token expired or invalid');
         }
 
+        // Hash the new password using bcrypt
         const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+        // Update the user's password in the User collection
         await User.updateOne({ _id: passwordReset.userId }, { password: hashedPassword });
+
+        // Remove the reset token from the database after successful reset
         await PasswordResetToken.deleteOne({ token });
 
-        res.status(200).send('Password has been reset');
+        // Send a success response after password reset
+        res.status(200).send('Password has been reset successfully');
     } catch (error) {
+        // Log and handle any server errors
         console.error('Error during password reset:', error);
         res.status(500).send('Server error');
     }
 });
 
-// Import admin routes
+
+// -------------------- Admin Routes Integration --------------------
 const adminRoutes = require('./routes/admin');
 app.use('/admin', adminRoutes(Admin, jwtSecret));
 
+// -------------------- Connection ID Fetch --------------------
 app.get('/api/getConnectionId', async (req, res) => {
     try {
         const authHeader = req.headers.authorization;
@@ -269,6 +317,24 @@ app.get('/api/getConnectionId', async (req, res) => {
     }
 });
 
+// -------------------- Verify Connection ID --------------------
+app.post('/api/verify-connection', async (req, res) => {
+    const { connectionId } = req.body;
+
+    try {
+        const user = await User.findOne({ connectionId });
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'Connection ID not found' });
+        }
+
+        return res.status(200).json({ success: true, message: 'Connection ID is valid' });
+    } catch (error) {
+        console.error('Error verifying connection ID:', error);
+        return res.status(500).json({ success: false, message: 'Server error' });
+    }
+});
+
+// -------------------- Get Users with Admin Authentication --------------------
 app.get('/getUsers', authenticateAdminToken, async (req, res) => {
     try {
         const users = await User.find({});
@@ -332,11 +398,6 @@ app.delete('/deleteUser/:id', authenticateAdminToken, async (req, res) => {
     }
 });
 
-app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
-    console.log('Server running and working !')
-});
-
 // Function to generate a connection ID
 function generateConnectionId(length) {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -346,3 +407,9 @@ function generateConnectionId(length) {
     }
     return result;
 }
+
+
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+    console.log('Server running and working !')
+});

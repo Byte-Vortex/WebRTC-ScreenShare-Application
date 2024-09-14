@@ -6,6 +6,7 @@ var peer = null;
 var currentPeer = null;
 var screenSharing = false;
 var conn = null;
+import axios from 'axios';
 
 window.createConnection = function() {
     notify("Initiating Connection");
@@ -75,64 +76,83 @@ window.notify = function(msg) {
     }, 1000);
 }
 
-window.joinconnection = function() {
-    notify("Initiating Connection with Host")
+window.joinconnection = async function() {
+    notify("Initiating Connection with Host");
+
     let connection = document.getElementById("connection-input").value;
     if (connection.trim() === "") {
         notify("Please Enter Connection Id");
         return;
     }
+    
     connection_code = connection;
-    peer = new Peer();
-    peer.on('open', (id) => {
-        console.log("Connection Id: " + id);
-        notify("Connected with Host");
-        conn = peer.connect(connection_code);
-        setTimeout(()=>{
-            document.getElementById("tohost").style.display='flex';
-            document.getElementById("gethost").style.display='flex';
-        },1000)
 
-        conn.on('data', (data) => {
-
-            if(data==='SCREEN_SHARE_ACCEPTED'){
-                notify('Screen Request Accepted');
-            }
-            else if(data==='SCREEN_SHARE_DENIED'){
-                notify('Screen Request Denied');
-            }
-            else if(data==='SCREEN_SHARE_STOPPED'){
-                notify('Screen Share Stopped')
-                document.getElementById("remote-vid-container").hidden = true;
-            }
+    try {
+        // Step 1: Verify the connection ID from the backend
+        const response = await axios.post(`https://nwr-server.vercel.app/api/verify-connection`, { connectionId: connection_code });
+        
+        if (response.data.success) {
+            console.log('Connection ID is valid. Proceeding to join connection.');
             
-        });
+            // Step 2: Initialize Peer connection
+            peer = new Peer();
+            peer.on('open', (id) => {
+                console.log("Connection Id: " + id);
+                notify("Connected with Host");
+                
+                conn = peer.connect(connection_code);
+                setTimeout(() => {
+                    document.getElementById("tohost").style.display = 'flex';
+                    document.getElementById("gethost").style.display = 'flex';
+                }, 1000);
+                
+                // Handle data from the peer connection
+                conn.on('data', (data) => {
+                    if (data === 'SCREEN_SHARE_ACCEPTED') {
+                        notify('Screen Request Accepted');
+                    } else if (data === 'SCREEN_SHARE_DENIED') {
+                        notify('Screen Request Denied');
+                    } else if (data === 'SCREEN_SHARE_STOPPED') {
+                        notify('Screen Share Stopped');
+                        document.getElementById("remote-vid-container").hidden = true;
+                    }
+                });
 
-        // Handle connection errors
-        conn.on('error', (err) => {
-            console.error("Data connection error: ", err);
-            notify(`Data connection error: ${err.message}`);
-        });
-    });
+                // Handle connection errors
+                conn.on('error', (err) => {
+                    console.error("Data connection error: ", err);
+                    notify(`Data connection error: ${err.message}`);
+                });
+            });
 
-    peer.on('call', (call) => {
-        // Answer the call with no local stream if you don't need to send any media
-        call.answer();
+            peer.on('call', (call) => {
+                // Answer the call with no local stream if you don't need to send any media
+                call.answer();
 
-        call.on('stream', (remoteStream) => {
-            console.log("Received screen stream from host.");
-            setRemoteStream(remoteStream);
-        });
+                call.on('stream', (remoteStream) => {
+                    console.log("Received screen stream from host.");
+                    setRemoteStream(remoteStream);
+                });
 
-        call.on('close', () => {
-            console.log("Media connection closed.");
-        });
+                call.on('close', () => {
+                    console.log("Media connection closed.");
+                });
 
-        call.on('error', (error) => {
-            console.error("Media connection error: ", error);
-        });
-    });
-}
+                call.on('error', (error) => {
+                    console.error("Media connection error: ", error);
+                });
+            });
+
+        } else {
+            console.error('Connection ID is invalid:', response.data.message);
+            alert('Invalid Connection ID. Please check and try again.');
+        }
+
+    } catch (error) {
+        console.error('Error verifying connection ID:', error);
+        alert('An error occurred while trying to connect. Please try again later.');
+    }
+};
 
 window.startScreenShare = function() {
     if (screenSharing) {
