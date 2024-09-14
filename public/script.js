@@ -370,7 +370,7 @@ window.shareScreenToHost = function() {
     //     })
 
     // currentPeer = call;
-    // startScreenShare();   
+       
 
     navigator.mediaDevices.getDisplayMedia({ video: true, audio: true }).then((stream) => {
         let call = peer.call(connection_code, stream);
@@ -378,6 +378,7 @@ window.shareScreenToHost = function() {
             setRemoteStream(remoteStream);
         });
         currentPeer = call;
+        startScreenShare();
     }).catch((error) => {
         console.error("Error accessing screen for sharing: ", error);
     });
