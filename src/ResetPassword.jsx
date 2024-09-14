@@ -21,11 +21,17 @@ const ResetPassword = () => {
                 const response = await axios.post('https://nwr-server.vercel.app/api/validate-token', { token });
                 if (response.data.status !== 'success') {
                     setError('Invalid or expired token.');
-                    navigate('/login');
+                    setTimeout(()=>{
+                        navigate('/login');
+                    },2000)
                     
                 }
             } catch (error) {
                 setError('Rest link is invalid or expired');
+                setTimeout(()=>{
+                    navigate('/login');
+                },1000)
+                
             }
         };
 
@@ -44,6 +50,10 @@ const ResetPassword = () => {
             const response = await axios.post('https://nwr-server.vercel.app/api/reset-password', { token, newPassword });
             setMessage('Password has been reset successfully.');
             setError('');
+            setTimeout(()=>{
+                navigate('/login');
+            },1500)
+
         } catch (error) {
             console.error('Error during password reset:', error); // Log the full error for debugging
     
@@ -60,6 +70,7 @@ const ResetPassword = () => {
             }
     
             setMessage('');
+            
         }
         finally{
             setNewPassword('');
@@ -68,6 +79,9 @@ const ResetPassword = () => {
                 setError('');
                 setMessage('')
             },1500)
+            setTimeout(()=>{
+                navigate('/login');
+            },1000)
         }
     };
     
