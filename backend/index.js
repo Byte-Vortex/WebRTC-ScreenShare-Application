@@ -142,8 +142,8 @@ app.post('/api/forgot-password', async (req, res) => {
 
         await PasswordResetToken.create({ userId: user._id, token, expiration });
 
-        const resetLink = `https://n-w-r.vercel.app/reset-password/${user._id}/${token}`;
-
+        const resetLink = `https://n-w-r.vercel.app/${user._id}/${token}`;
+        
         try {
             await sendPasswordResetEmail(user.email, resetLink);
             console.log('Password reset email sent successfully');
@@ -157,45 +157,6 @@ app.post('/api/forgot-password', async (req, res) => {
         return res.status(500).json({ status: 'error', message: 'Server error' });
     }
 });
-
-// function sendPasswordResetEmail(email, resetLink) {
-//     const transporter = nodemailer.createTransport({
-//         host: 'smtp.gmail.com',
-//         port: 587,
-//         secure: false, // Use STARTTLS
-//         auth: {
-//             user: process.env.EMAIL_USER,
-//             pass: process.env.EMAIL_PASS,
-//         },
-//         connectionTimeout: 60000, // 1 minute
-//     });
-
-//     const mailOptions = {
-//         from: process.env.EMAIL_USER,
-//         to: email,
-//         subject: 'Reset Password Link',
-//         text: `Password Reset Requested
-
-//         You have requested a password reset for your account. Please click the link below to reset your password within 10 minutes:
-
-//         ${resetLink}
-
-//         Important: If you did not request this password reset, please ignore this email.`,
-//     };
-
-//     // Use Promise-based approach for better error handling
-//     return new Promise((resolve, reject) => {
-//         transporter.sendMail(mailOptions, (err, info) => {
-//             if (err) {
-//                 console.error('Error sending email:', err);
-//                 return reject(new Error('Error sending password reset email'));
-//             } else {
-//                 console.log('Email sent successfully:', info.response);
-//                 return resolve(info.response);
-//             }
-//         });
-//     });
-// }
 
 // -------------------- Helper Function for Sending Emails --------------------
 async function sendPasswordResetEmail(toEmail, resetLink) {

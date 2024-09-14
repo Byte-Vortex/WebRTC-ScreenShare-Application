@@ -16,7 +16,7 @@ const ForgotPassword = () => {
             setTimeout(() => setError(''), 1500);
             return;
         }
-
+        
         try {
             const response = await axios.post('https://nwr-server.vercel.app/api/forgot-password', { email });
             setMessage(response.data.message || 'Password Reset Link Sent to your Email.');
@@ -40,11 +40,12 @@ const ForgotPassword = () => {
             setMessage('');
         }
         finally{
-            setEmail('');
+            
             setTimeout(()=>{
                 setError('');
                 setMessage('')
             },1500)
+            setEmail('');
         }
     };
 

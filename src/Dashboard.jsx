@@ -12,16 +12,13 @@ const Dashboard = () => {
     const [connectionCode, setConnectionCode] = useState('');
     const [name, setName] = useState(''); 
     const [loading, setLoading] = useState(false);
-    const [isLogout, setIsLogout] = useState(false); 
-    const [showDivA, setShowDivA] = useState(true);
-    const [showDivB, setShowDivB] = useState(true); 
+    const [isLogout, setIsLogout] = useState(false);  
     const navigate = useNavigate();
 
     useEffect(() => {
         loadScript('/script.js');
         fetchConnectionCode();
     }, []);
-    
     const fetchConnectionCode = async () => {
         try {
             const response = await api.get('https://nwr-server.vercel.app/api/getConnectionId');
@@ -72,16 +69,10 @@ const Dashboard = () => {
 
     const handleHost = () => {
         window.createConnection();
-        setTimeout(()=>{
-            setShowDivB(false);
-        },1200)
     };
 
     const handleRemote = () => {
         window.joinconnection()
-        setTimeout(()=>{
-            setShowDivA(false);
-        },1200)
     };
 
     const handlestreamtohost = () => {
@@ -129,7 +120,7 @@ const Dashboard = () => {
                 <button onClick={handleLogout} className='logoff-btn'><IoLogOut /></button>
                 </div>
                 <div className="info-div" >
-                    <div className='A' style={{display:showDivA?'flex':'none'}}>
+                    <div className='A' id='A' style={{display:'flex'}}>
                     <div className='connection-code-div'>
                         {connectionCode && (
                             <p className='connection-code'>{connectionCode}<i id="check" style={{display:'inline',color:'red',transition:'.2s ease-in-out'}} className="fa-regular fa-circle-check"></i></p>
@@ -139,7 +130,7 @@ const Dashboard = () => {
                             <button className="ashost" id='ashost' onClick={handleHost}>Connect as Host</button>
                         </div>   
                     </div>
-                    <div className='B' style={{display:showDivB?'flex':'none'}}>
+                    <div className='B' id='B' style={{display:'flex'}}>
                     <input className='connection-id-input' id="connection-input" type="text" placeholder="Enter Connection Code"  required />
                     <div className='button'>
                         <button className="asremote" onClick={handleRemote}>Connect as Remote</button>

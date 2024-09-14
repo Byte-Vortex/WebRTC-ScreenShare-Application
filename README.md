@@ -55,6 +55,7 @@ The app provides secure user authentication, ensuring that only authorized users
     cd backend  
     npm start
     ```
+    
 **Note**-
 
 Must Include the .env file in backend for the database and other information for functioning like 

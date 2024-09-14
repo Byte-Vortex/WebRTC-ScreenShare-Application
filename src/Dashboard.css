@@ -52,6 +52,13 @@ html, body {
 
 }
 
+.header h3::selection{
+    background-color: transparent;
+}
+.header h4::selection{
+    background-color: transparent;
+}
+
 .header h4 {
     font-size: 20px;
     padding-left: 0px;
@@ -122,6 +129,11 @@ html, body {
     letter-spacing: 7px;
 }
 
+.connection-code::selection{
+    color: black;
+    background-color: transparent;
+}
+
 .connection-id-input {
     width: 240px;
     height: 6vh;
@@ -147,6 +159,12 @@ html, body {
 .connection-id-input:focus {
     border: none;
     outline: none;
+}
+
+.connection-id-input::selection{
+    color: black;
+    font-weight: 800;
+    background-color: transparent;
 }
 
 .button {
@@ -190,11 +208,6 @@ html, body {
 .button button::selection {
     background-color: transparent;
 }
-
-.button button:focus {
-    transform: scale(0.9);
-}
-
 
 .screen-share-options {
     position:absolute;

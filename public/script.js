@@ -16,7 +16,8 @@ window.createConnection = function() {
     peer.on('open', (id) => {
         notify("Establishing Connection");
         console.log("Establishing Connection");
-        console.log("Connecting with Id: " + connection_code);      
+        console.log("Connecting with Id: " + connection_code);
+        document.getElementById('B').style.display ='none';     
         setTimeout(() => {
             notify("Connection Established");
             console.log("Connection Established");
@@ -39,7 +40,7 @@ window.createConnection = function() {
 window.setScreenSharingStream = function(stream) {
     let video = document.getElementById("screenshared-video");
     video.srcObject = stream;
-    video.muted = true;
+    video.muted = false;
     video.play().catch(error => {
         console.error("Error playing video:", error);
     });
@@ -87,15 +88,17 @@ window.joinconnection = async function() {
     connection_code = connection;
 
     try {
-        const response = await axios.post(`https://nwr-server.vercel.app/api/verify-connection`, { connectionId: connection_code });
+        const response = await axios.post(`http://localhost:5000/api/verify-connection`, { connectionId: connection_code });
         
         if (response.data.success) {
             console.log('Connection ID is valid. Proceeding to join connection.');
             
-            // Step 2: Initialize Peer connection
             peer = new Peer();
             peer.on('open', (id) => {
                 console.log("Connection Id: " + id);
+                setTimeout(()=>{
+                    document.getElementById("A").style.display = 'none';
+                })
                 notify("Connected with Host");
                 
                 conn = peer.connect(connection_code);
@@ -143,12 +146,12 @@ window.joinconnection = async function() {
 
         } else {
             console.error('Connection ID is invalid:', response.data.message);
-            alert('Invalid Connection ID. Please check and try again.');
+            notify("Please Enter Valid Connection Id");
         }
 
     } catch (error) {
         console.error('Error verifying connection ID:', error);
-        alert('An error occurred while trying to connect. Please try again later.');
+        notify("Please Enter Valid Connection Id");
     }
 };
 
@@ -157,7 +160,7 @@ window.startScreenShare = function() {
         stopScreenSharing();
     }
     if (navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia) {
-        navigator.mediaDevices.getDisplayMedia({ video: true }).then((stream) => {
+        navigator.mediaDevices.getDisplayMedia({ video: true , audio:true}).then((stream) => {
             setScreenSharingStream(stream);
             screenStream = stream;
             let videoTrack = screenStream.getVideoTracks()[0];
@@ -233,7 +236,7 @@ window.hostSideSetup = function() {
 
 window.screenAccessRequest = function (accepted) {
     if (accepted) {
-        navigator.mediaDevices.getDisplayMedia({ video: true }).then((stream) => {
+        navigator.mediaDevices.getDisplayMedia({ video: true , audio:true}).then((stream) => {
             screenStream = stream;
             setScreenSharingStream(screenStream);
             if (conn) {
@@ -335,26 +338,6 @@ window.shareScreenToHost = function() {
         })
 
     currentPeer = call;
-    startScreenShare();
-    setTimeout(()=>{
-        document.getElementById('tohost').hidden=true
-    },2000)     
+    startScreenShare();   
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    const dropdown = document.querySelector('.dropdown');
-    const dropdownContent = document.querySelector('.dropdown-content');
-
-    dropdown.addEventListener('mouseenter', function() {
-        const rect = dropdownContent.getBoundingClientRect();
-        const viewportWidth = window.innerWidth;
-
-        if (rect.right > viewportWidth) {
-            dropdownContent.style.left = 'auto';
-            dropdownContent.style.right = '0';
-        } else {
-            dropdownContent.style.left = '0';
-            dropdownContent.style.right = 'auto';
-        }
-    });
-});
