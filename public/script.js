@@ -40,7 +40,7 @@ window.createConnection = function() {
 window.setScreenSharingStream = function(stream) {
     let video = document.getElementById("screenshared-video");
     video.srcObject = stream;
-    video.muted = false;
+    video.muted = true;
     video.play().catch(error => {
         console.error("Error playing video:", error);
     });
