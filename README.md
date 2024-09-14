@@ -3,21 +3,25 @@
 ![webrtc](https://github.com/user-attachments/assets/b7e12b06-57c3-4e9b-b0f0-cc686bf04352)
 
 
-This project is a WebRTC-based screen sharing application that allows users to share their screens in real-time. It includes both frontend and backend components, and supports data storage using MongoDB and MySQL.
+This Real-Time Screen Sharing Application is built using modern web technologies such as WebRTC, PeerJS, React.js, and Node.js. The application allows users to share their screens in real-time, enabling seamless remote collaboration, presentations, and technical support sessions.
+
+The app provides secure user authentication, ensuring that only authorized users can initiate or join screen-sharing sessions. Each user is assigned a unique connection ID, which is used to establish peer-to-peer connections for screen sharing. The host can share their screen with a remote user, while the remote user has the option to share their screen back with the host. The application also supports real-time notifications for a smoother user experience.
+
+##Key Features:
+-**Secure User Authentication**: Users must log in to access the application, with hashed password storage for security.
+-**Peer-to-Peer Connections**: Using WebRTC and PeerJS, the app enables direct, low-latency connections for screen sharing.
+-**Screen Sharing**: Hosts and remote users can share screens in real-time, with full control over starting and stopping the share.
+-**Password Reset Functionality**: Forgot password and reset password features are implemented using secure token generation and email notifications.
+-**Admin Panel**: An admin can manage users, add new ones, and oversee the application’s functionality.
+-**Responsive User Interface**: The application has a clean and intuitive UI for a smooth user experience across devices.
+
 
 ## Technologies Used
 
-### Frontend
-- **Languages**: HTML, CSS, JavaScript
-- **Framework**: React.js
-
-### Backend
-- **Server**: Node.js, Express.js
-- **WebRTC**: PeerJS
-
-### Database
-- **NoSQL**: MongoDB
-- **SQL**: MySQL
+- **Frontend**: React.js, WebRTC, PeerJS
+- **Backend**: Node.js, Express.js, Mongoose (MongoDB)
+- **Authentication**: JWT (JSON Web Token), Bcrypt for password hashing
+- **Deployment**: Vercel (Frontend), Cloud service for the backend
 
 ## Setup
 
@@ -51,3 +55,13 @@ This project is a WebRTC-based screen sharing application that allows users to s
     cd backend  
     npm start
     ```
+**Note**-
+
+Must Include the .env file in backend for the database and other information for functioning like 
+```
+   MONGODB_URI=""
+   JWT_SECRET=""
+   PORT=
+   EMAIL_USER=""
+   EMAIL_PASS=""
+```
