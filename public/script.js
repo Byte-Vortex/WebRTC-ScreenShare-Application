@@ -92,6 +92,7 @@ window.joinconnection = async function() {
         
         if (response.data.success) {
             console.log('Connection ID is valid. Proceeding to join connection.');
+            notify("Connecting with Host");
             
             peer = new Peer();
             peer.on('open', (id) => {
