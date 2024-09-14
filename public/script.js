@@ -57,7 +57,7 @@ window.setRemoteStream = function(stream) {
     let video = document.getElementById("remote-video");
     video.srcObject = stream;
     video.play().catch(error => {
-        console.error("Error playing remote screen:", error);
+        // console.error("Error playing remote screen:", error);
         });
     
     setTimeout(()=>{
@@ -372,15 +372,11 @@ window.shareScreenToHost = function() {
     // currentPeer = call;
        
 
-    navigator.mediaDevices.getDisplayMedia({ video: true, audio: true }).then((stream) => {
+        startScreenShare();
         let call = peer.call(connection_code, stream);
         call.on('stream', (remoteStream) => {
             setRemoteStream(remoteStream);
         });
         currentPeer = call;
-        startScreenShare();
-    }).catch((error) => {
-        console.error("Error accessing screen for sharing: ", error);
-    });
 }
 
