@@ -88,7 +88,7 @@ window.joinconnection = async function() {
     connection_code = connection;
 
     try {
-        const response = await axios.post(`nttps://nwr-server.vercel.app/api/verify-connection`, { connectionId: connection_code });
+        const response = await axios.post(`https://nwr-server.vercel.app/api/verify-connection`, { connectionId: connection_code });
         
         if (response.data.success) {
             console.log('Connection ID is valid. Proceeding to join connection.');
