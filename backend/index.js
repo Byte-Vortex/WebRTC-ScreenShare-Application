@@ -142,7 +142,7 @@ app.post('/api/forgot-password', async (req, res) => {
 
         await PasswordResetToken.create({ userId: user._id, token, expiration });
 
-        const resetLink = `https://n-w-r.vercel.app/${user._id}/${token}`;
+        const resetLink = `https://n-w-r.vercel.app/reset-password/${user._id}/${token}`;
         
         try {
             await sendPasswordResetEmail(user.email, resetLink);
