@@ -168,34 +168,34 @@ window.startScreenShare = function() {
             videoTrack.onended = () => {
                 stopScreenSharing();
             };
-            // if (peer) {
-            //     let sender = currentPeer.peerConnection.getSenders().find(function(s) {
-            //         return s.track.kind == videoTrack.kind;
-            //     });
-            //         sender.replaceTrack(videoTrack);
-            //         screenSharing = true;
-            //     }
-
             if (peer) {
-                let videoTrack = screenStream.getVideoTracks()[0];
-                let audioTrack = screenStream.getAudioTracks()[0]; // Get the audio track
-            
-                let videoSender = currentPeer.peerConnection.getSenders().find(function(s) {
-                    return s.track.kind === videoTrack.kind;
+                let sender = currentPeer.peerConnection.getSenders().find(function(s) {
+                    return s.track.kind == videoTrack.kind;
                 });
-                let audioSender = currentPeer.peerConnection.getSenders().find(function(s) {
-                    return s.track.kind === audioTrack.kind; // Find the audio sender
-                });
-            
-                if (videoSender) {
-                    videoSender.replaceTrack(videoTrack);
+                    sender.replaceTrack(videoTrack);
+                    screenSharing = true;
                 }
-                if (audioSender) {
-                    audioSender.replaceTrack(audioTrack); // Replace the audio track as well
-                }
+
+            // if (peer) {
+            //     let videoTrack = screenStream.getVideoTracks()[0];
+            //     let audioTrack = screenStream.getAudioTracks()[0]; // Get the audio track
             
-                screenSharing = true;
-            }
+            //     let videoSender = currentPeer.peerConnection.getSenders().find(function(s) {
+            //         return s.track.kind === videoTrack.kind;
+            //     });
+            //     let audioSender = currentPeer.peerConnection.getSenders().find(function(s) {
+            //         return s.track.kind === audioTrack.kind; // Find the audio sender
+            //     });
+            
+            //     if (videoSender) {
+            //         videoSender.replaceTrack(videoTrack);
+            //     }
+            //     if (audioSender) {
+            //         audioSender.replaceTrack(audioTrack); // Replace the audio track as well
+            //     }
+            
+            //     screenSharing = true;
+            // }
 
             console.log(screenStream);
             setTimeout(() => {
