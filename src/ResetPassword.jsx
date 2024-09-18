@@ -30,7 +30,7 @@ const ResetPassword = () => {
                 setError('Rest link is invalid or expired');
                 setTimeout(()=>{
                     navigate('/login');
-                },1000)
+                },2000)
                 
             }
         };
