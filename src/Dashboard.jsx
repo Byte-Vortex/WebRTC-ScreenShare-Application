@@ -16,9 +16,9 @@ const Dashboard = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        loadScript('/script.js');
         fetchConnectionCode();
-    }, []);
+        loadScript('/script.js');
+        }, []);
     const fetchConnectionCode = async () => {
         try {
             const response = await api.get('https://nwr-server.vercel.app/api/getConnectionId');
