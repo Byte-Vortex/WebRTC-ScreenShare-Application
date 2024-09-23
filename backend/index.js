@@ -12,20 +12,24 @@ const nodemailer = require('nodemailer');
 
 const app = express();
 app.use(express.json());
+const allowedOrigins = ["https://n-w-r.vercel.app", "https://nwr-webrtc.bytevortex.in/"];
+
 app.use(cors({
-    origin: "https://n-w-r.vercel.app" || "https://nwr-webrtc.bytevortex.in/",  // Explicitly allow this origin
+    origin: (origin, callback) => {
+        // Check if the origin is in the allowedOrigins array
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
     methods: ["POST", "GET", "OPTIONS", "DELETE"],
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
-// Handle preflight requests for all routes
-app.options('*', cors({
-    origin: "https://n-w-r.vercel.app" || "https://nwr-webrtc.bytevortex.in/",
-    methods: ["POST", "GET", "OPTIONS"],
-    credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization"]
-}));
+app.options('*', cors());
+
 
 const userUri = process.env.MONGODB_URI;
 const adminUri = process.env.MONGODB_URI;
