@@ -13,7 +13,7 @@ const nodemailer = require('nodemailer');
 const app = express();
 app.use(express.json());
 app.use(cors({
-    origin: "https://n-w-r.vercel.app",  // Explicitly allow this origin
+    origin: "https://n-w-r.vercel.app" || "https://nwr-webrtc.bytevortex.in/",  // Explicitly allow this origin
     methods: ["POST", "GET", "OPTIONS", "DELETE"],
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"]
@@ -21,7 +21,7 @@ app.use(cors({
 
 // Handle preflight requests for all routes
 app.options('*', cors({
-    origin: "https://n-w-r.vercel.app",
+    origin: "https://n-w-r.vercel.app" || "https://nwr-webrtc.bytevortex.in/",
     methods: ["POST", "GET", "OPTIONS"],
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"]
